@@ -381,6 +381,58 @@
       user-select: none;
     }
 
+    /* Accents produit — rappels discrets */
+    .vape-accent {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.34;
+      filter: drop-shadow(0 6px 20px rgba(168, 85, 247, 0.35));
+      --vape-rot: 0deg;
+    }
+    .vape-accent img { width: 100%; height: auto; display: block; }
+    .vape-accent--sm { width: 72px; }
+    .vape-accent--md { width: 100px; }
+    .vape-accent--lg { width: 130px; }
+    .vape-accent--fade { opacity: 0.24; }
+    .vape-accent--ghost { opacity: 0.16; }
+    .vape-accent--float { animation: vape-accent-float 7s ease-in-out infinite; }
+    @keyframes vape-accent-float {
+      0%, 100% { transform: translateY(0) rotate(var(--vape-rot)); }
+      50% { transform: translateY(-9px) rotate(var(--vape-rot)); }
+    }
+    .vape-accent--tr { top: 6%; right: 1.5%; }
+    .vape-accent--tl { top: 10%; left: 1%; }
+    .vape-accent--br { bottom: 6%; right: 2%; }
+    .vape-accent--bl { bottom: 8%; left: 1.5%; }
+    .cta-vape-peek {
+      position: absolute;
+      right: 20px; bottom: 12px;
+      width: 82px;
+      opacity: 0.42;
+      pointer-events: none;
+      z-index: 0;
+      transform: rotate(14deg);
+      filter: drop-shadow(0 0 18px var(--violet-glow));
+    }
+    .cta-vape-peek img { width: 100%; height: auto; display: block; }
+    .app-vape-inline {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin: -24px auto 36px;
+      position: relative; z-index: 1;
+    }
+    .app-vape-inline img {
+      width: 48px; height: auto;
+      filter: drop-shadow(0 0 14px var(--violet-glow));
+      opacity: 0.9;
+    }
+    .app-vape-inline span {
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
     /* Phone mockup — écran principal */
     .phone-mockup { display: flex; justify-content: center; position: relative; }
     .phone-frame {
@@ -554,11 +606,212 @@
     }
     .compare-card:hover { border-color: var(--violet); box-shadow: 0 0 20px var(--violet-glow); }
     .compare-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+    .compare-icon-vape {
+      width: 40px; height: 40px; margin-top: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .compare-icon-vape img {
+      width: 100%; height: auto;
+      filter: drop-shadow(0 0 10px var(--violet-glow));
+    }
     .compare-card h4 {
       font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
       letter-spacing: 1px; margin-bottom: 4px;
     }
     .compare-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Pourquoi CTRL+ */
+    .why-section {
+      padding: 0;
+      overflow: hidden;
+    }
+    .why-band {
+      position: relative;
+      padding: 88px 0 96px;
+      background:
+        linear-gradient(180deg, rgba(168, 85, 247, 0.06) 0%, rgba(22, 27, 34, 0.95) 40%, rgba(28, 33, 44, 0.98) 100%);
+      border-top: 1px solid rgba(168, 85, 247, 0.25);
+      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        inset 0 -1px 0 rgba(168, 85, 247, 0.08),
+        0 24px 80px rgba(0, 0, 0, 0.35);
+    }
+    .why-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(168, 85, 247, 0.04) 50%, transparent 100%),
+        repeating-linear-gradient(90deg, rgba(168, 85, 247, 0.03) 0, rgba(168, 85, 247, 0.03) 1px, transparent 1px, transparent 80px);
+      pointer-events: none;
+      animation: why-scan 12s linear infinite;
+    }
+    .why-band::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--violet), #fff, var(--violet), transparent);
+      opacity: 0.6;
+      box-shadow: 0 0 24px var(--violet-glow);
+    }
+    @keyframes why-scan {
+      0% { transform: translateX(-4%); }
+      100% { transform: translateX(4%); }
+    }
+    @keyframes why-icon-glow {
+      0%, 100% { filter: drop-shadow(0 0 8px var(--violet-glow)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 20px var(--violet-glow)) drop-shadow(0 0 32px rgba(255,255,255,0.15)); transform: scale(1.06); }
+    }
+    .why-section .section-header { margin-bottom: 48px; position: relative; z-index: 1; }
+    .why-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .why-card-wrap { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+    .why-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      min-height: 168px;
+      padding: 28px 16px;
+      background: rgba(13, 17, 23, 0.75);
+      border: 1px solid rgba(168, 85, 247, 0.22);
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text);
+      text-align: center;
+      transition:
+        transform 0.45s var(--ease-out-expo),
+        border-color 0.35s,
+        box-shadow 0.45s var(--ease-out-expo),
+        background 0.35s;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-out-expo);
+    }
+    .why-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 12px 40px rgba(168, 85, 247, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      background: rgba(22, 27, 34, 0.95);
+    }
+    .why-card:hover::before { opacity: 1; }
+    .why-card:hover .why-icon { animation: why-icon-glow 1.2s ease-in-out infinite; }
+    .why-card-wrap.is-open .why-card {
+      border-color: var(--violet);
+      box-shadow: 0 0 32px var(--violet-glow), inset 0 0 24px rgba(168, 85, 247, 0.08);
+      background: linear-gradient(180deg, rgba(168, 85, 247, 0.12), rgba(13, 17, 23, 0.9));
+      transform: translateY(-4px);
+    }
+    .why-card-wrap.is-open .why-card .why-icon {
+      animation: why-icon-glow 1.5s ease-in-out infinite;
+    }
+    .why-icon {
+      font-size: 2.25rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 10px var(--violet-glow));
+      transition: transform 0.4s var(--ease-out-expo), filter 0.4s;
+      position: relative;
+      z-index: 1;
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1.35;
+      position: relative;
+      z-index: 1;
+    }
+    .why-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.55s var(--ease-out-expo);
+    }
+    .why-card-wrap.is-open .why-panel { grid-template-rows: 1fr; }
+    .why-panel-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+    .why-panel-content {
+      padding: 20px 18px 4px;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.45s var(--ease-out-expo) 0.08s, transform 0.45s var(--ease-out-expo) 0.08s;
+    }
+    .why-card-wrap.is-open .why-panel-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .why-quote-wrap {
+      margin-top: 64px;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .why-quote-wrap::before,
+    .why-quote-wrap::after {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 3rem;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--violet), #fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.35;
+      position: absolute;
+      top: -8px;
+    }
+    .why-quote-wrap::before { left: 0; }
+    .why-quote-wrap::after { content: '"'; right: 0; }
+    .why-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 2.4vw, 1.55rem);
+      font-weight: 600;
+      line-height: 1.55;
+      letter-spacing: 0.5px;
+      padding: 0 40px;
+      background: linear-gradient(135deg, #fff 0%, #e9d5ff 35%, var(--violet) 70%, #c084fc 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-shift 6s ease infinite;
+    }
+    .why-quote-line {
+      width: 80px;
+      height: 2px;
+      margin: 28px auto 0;
+      background: linear-gradient(90deg, transparent, var(--violet), transparent);
+      box-shadow: 0 0 16px var(--violet-glow);
+      transform: scaleX(0);
+      transition: transform 0.8s var(--ease-out-expo) 0.2s;
+    }
+    .why-quote-wrap.visible .why-quote-line { transform: scaleX(1); }
 
     /* Modes */
     .modes-section { background: linear-gradient(180deg, transparent, rgba(168,85,247,0.04), transparent); }
@@ -1096,6 +1349,61 @@
     }
     .legal-links a:hover { border-color: var(--cyan); box-shadow: 0 0 16px var(--cyan-glow); }
 
+    /* Accordéons — contenu secondaire */
+    .accordion-section {
+      padding: 64px 0 80px;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, transparent, rgba(168,85,247,0.03));
+    }
+    .accordion-section .section-header { margin-bottom: 32px; }
+    .accordion-list { display: flex; flex-direction: column; gap: 12px; }
+    .accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .accordion-item[open] {
+      border-color: rgba(168,85,247,0.45);
+      box-shadow: 0 0 24px rgba(168,85,247,0.12);
+    }
+    .accordion-item summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 20px 24px; cursor: pointer; list-style: none;
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text);
+      user-select: none;
+    }
+    .accordion-item summary::-webkit-details-marker { display: none; }
+    .accordion-item summary::after {
+      content: '+'; font-size: 1.4rem; font-weight: 400; color: var(--cyan);
+      transition: transform 0.3s var(--ease-out-expo);
+      flex-shrink: 0;
+    }
+    .accordion-item[open] summary::after {
+      content: '−'; color: var(--violet);
+    }
+    .accordion-item summary:hover { color: var(--cyan); }
+    .accordion-tag {
+      font-size: 0.6rem; color: var(--text-muted); letter-spacing: 1px;
+      font-weight: 500; text-transform: none; display: block; margin-top: 4px;
+    }
+    .accordion-body {
+      padding: 0 24px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .accordion-body .section-header { text-align: left; margin-bottom: 24px; }
+    .accordion-body .section-header .section-title { font-size: clamp(1.2rem, 3vw, 1.6rem); }
+    .accordion-body .section-header .section-title::after { margin-left: 0; }
+    .accordion-body section,
+    .accordion-body .accordion-inner { padding: 24px 0 0; }
+    .accordion-body .trust-strip {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0; border: none; margin: 0;
+    }
+    .accordion-body .legal-content { padding: 0; }
+    .accordion-body .legal-content h3:first-child { margin-top: 8px; }
+
     .trust-strip {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
       padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -1148,6 +1456,7 @@
       .sr-panel:last-child { border-bottom: none; }
       .vape-showcase { min-height: 340px; order: -1; }
       .problem-grid { grid-template-columns: 1fr; gap: 32px; }
+      .why-band { padding: 72px 0 80px; }
       .pillars-grid { grid-template-columns: repeat(3, 1fr); }
       .mechanics-grid { grid-template-columns: 1fr; }
       .mechanic-card.wide { grid-column: span 1; }
@@ -1257,6 +1566,15 @@
       .section-desc { font-size: 1rem; padding: 0 4px; }
 
       .compare-card { padding: 16px; }
+      .why-cards { grid-template-columns: 1fr; gap: 12px; }
+      .why-card { min-height: 140px; padding: 24px 16px; }
+      .why-quote { padding: 0 8px; font-size: 1.05rem; }
+      .why-quote-wrap::before, .why-quote-wrap::after { display: none; }
+      .why-band { padding: 56px 0 64px; }
+      .vape-accent { display: none; }
+      .cta-vape-peek { width: 58px; right: 10px; bottom: 8px; opacity: 0.32; }
+      .app-vape-inline { margin: -8px auto 28px; }
+      .app-vape-inline img { width: 40px; }
       .problem-highlight { font-size: 1.05rem; }
 
       .scanlines { opacity: 0.5; }
@@ -1310,12 +1628,13 @@
     <div class="container nav-inner">
       <a href="#" class="logo">CTRL<span>+</span></a>
       <ul class="nav-links" id="navLinks">
+        <li><a href="#pourquoi">Pourquoi</a></li>
         <li><a href="#probleme">Le problème</a></li>
         <li><a href="#modes">Les 3 modes</a></li>
-        <li><a href="#app">L'app</a></li>
-        <li><a href="#boutique">Boutique</a></li>
-        <li><a href="#systeme">Système</a></li>
+        <li><a href="#app">Dashboard</a></li>
         <li><a href="#rewards">Récompenses</a></li>
+        <li><a href="#cta">Liste d'attente</a></li>
+        <li><a href="#explorer">En savoir plus</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li class="nav-menu-cta"><a href="rejoindre.html" class="btn btn-primary">Rejoindre</a></li>
       </ul>
@@ -1336,7 +1655,7 @@
         </p>
         <div class="hero-cta">
           <a href="#modes" class="btn btn-primary">Choisir ton mode</a>
-          <a href="#app" class="btn btn-outline">Voir l'interface</a>
+          <a href="#cta" class="btn btn-outline">Liste d'attente</a>
         </div>
         <p class="age-notice" role="note">⚠️ Réservé aux personnes majeures (18+) · Projet MVP en développement</p>
       </div>
@@ -1357,8 +1676,96 @@
     </div>
   </section>
 
+  <!-- Pourquoi CTRL+ -->
+  <section id="pourquoi" class="why-section" aria-labelledby="why-heading">
+    <div class="why-band">
+      <div class="vape-accent vape-accent--md vape-accent--fade vape-accent--float vape-accent--br" style="--vape-rot: 14deg" aria-hidden="true">
+        <img src="assets/ctrl-vape-clean.png" alt="" width="100" height="100" loading="lazy" decoding="async">
+      </div>
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">// Valeur</span>
+          <h2 class="section-title" id="why-heading">Pourquoi CTRL+</h2>
+          <p class="section-desc">Cinq raisons de reprendre le contrôle — sans renoncer au plaisir.</p>
+        </div>
+
+        <div class="why-cards" role="list">
+          <div class="why-card-wrap reveal" role="listitem">
+            <button type="button" class="why-card" aria-expanded="false" aria-controls="why-panel-1">
+              <span class="why-icon" aria-hidden="true">🎯</span>
+              <span class="why-title">Reprendre le contrôle</span>
+            </button>
+            <div class="why-panel" id="why-panel-1" role="region" aria-hidden="true">
+              <div class="why-panel-inner">
+                <p class="why-panel-content">La cigarette électronique a permis à des millions de personnes d'arrêter le tabac. Mais pour beaucoup, une nouvelle habitude s'est installée : vapoter partout, tout le temps, sans vraiment s'en rendre compte. CTRL+ ne cherche pas à supprimer le plaisir. CTRL+ aide à reprendre le contrôle.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="why-card-wrap reveal" role="listitem">
+            <button type="button" class="why-card" aria-expanded="false" aria-controls="why-panel-2">
+              <span class="why-icon" aria-hidden="true">📊</span>
+              <span class="why-title">Comprendre sa dépendance</span>
+            </button>
+            <div class="why-panel" id="why-panel-2" role="region" aria-hidden="true">
+              <div class="why-panel-inner">
+                <p class="why-panel-content">On ne peut pas améliorer ce que l'on ne mesure pas. Grâce au suivi intelligent de la consommation, CTRL+ permet de visualiser ses habitudes, identifier ses moments de consommation et prendre conscience de sa dépendance réelle.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="why-card-wrap reveal" role="listitem">
+            <button type="button" class="why-card" aria-expanded="false" aria-controls="why-panel-3">
+              <span class="why-icon" aria-hidden="true">💰</span>
+              <span class="why-title">Faire des économies</span>
+            </button>
+            <div class="why-panel" id="why-panel-3" role="region" aria-hidden="true">
+              <div class="why-panel-inner">
+                <p class="why-panel-content">Chaque puff évitée représente une économie. CTRL+ transforme les petites victoires quotidiennes en résultats concrets : moins de consommation, moins de dépenses, plus de liberté.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="why-card-wrap reveal" role="listitem">
+            <button type="button" class="why-card" aria-expanded="false" aria-controls="why-panel-4">
+              <span class="why-icon" aria-hidden="true">❤️</span>
+              <span class="why-title">Retrouver l'objectif initial</span>
+            </button>
+            <div class="why-panel" id="why-panel-4" role="region" aria-hidden="true">
+              <div class="why-panel-inner">
+                <p class="why-panel-content">La plupart des vapoteurs ont commencé la cigarette électronique pour améliorer leur santé et s'éloigner du tabac. Avec le temps, cet objectif peut parfois passer au second plan. CTRL+ rappelle l'essentiel : la vape est un outil de transition, pas une destination.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="why-card-wrap reveal" role="listitem">
+            <button type="button" class="why-card" aria-expanded="false" aria-controls="why-panel-5">
+              <span class="why-icon" aria-hidden="true">🚀</span>
+              <span class="why-title">Progresser sans frustration</span>
+            </button>
+            <div class="why-panel" id="why-panel-5" role="region" aria-hidden="true">
+              <div class="why-panel-inner">
+                <p class="why-panel-content">Les restrictions brutales fonctionnent rarement. CTRL+ accompagne chaque utilisateur à son rythme grâce à des objectifs personnalisés, des récompenses, des niveaux et un système conçu pour durer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <figure class="why-quote-wrap reveal">
+          <blockquote class="why-quote">
+            La meilleure cigarette électronique n'est pas celle qui te fait vapoter davantage. C'est celle qui t'aide à en avoir moins besoin.
+          </blockquote>
+          <div class="why-quote-line" aria-hidden="true"></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <!-- Le problème -->
   <section id="probleme" class="problem-section">
+    <div class="vape-accent vape-accent--lg vape-accent--ghost vape-accent--float vape-accent--tr" style="--vape-rot: -10deg" aria-hidden="true">
+      <img src="assets/ctrl-vape-v2-clean.png" alt="" width="130" height="130" loading="lazy" decoding="async">
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">// Le constat</span>
@@ -1389,7 +1796,9 @@
             </div>
           </div>
           <div class="compare-card">
-            <span class="compare-icon">🎮</span>
+            <span class="compare-icon compare-icon-vape" aria-hidden="true">
+              <img src="assets/ctrl-vape-v2-clean.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+            </span>
             <div>
               <h4>CTRL+</h4>
               <p>Stock mesurable et recharges programmées, objectifs clairs. Le plaisir reste, le contrôle revient.</p>
@@ -1400,42 +1809,11 @@
     </div>
   </section>
 
-  <!-- Concept -->
-  <section id="concept">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-tag">// Le concept</span>
-        <h2 class="section-title">Une e-cigarette + une app qui jouent ensemble</h2>
-        <p class="section-desc">Cinq piliers pour reprendre le contrôle sans frustration ni culpabilité.</p>
-      </div>
-
-      <div class="pillars-grid">
-        <div class="pillar reveal">
-          <div class="pillar-icon">📊</div>
-          <h3>Analyse des habitudes</h3>
-        </div>
-        <div class="pillar reveal">
-          <div class="pillar-icon">🎯</div>
-          <h3>Objectifs personnalisés</h3>
-        </div>
-        <div class="pillar reveal">
-          <div class="pillar-icon">📉</div>
-          <h3>Limite progressive</h3>
-        </div>
-        <div class="pillar reveal">
-          <div class="pillar-icon">🏅</div>
-          <h3>Récompense des efforts</h3>
-        </div>
-        <div class="pillar reveal">
-          <div class="pillar-icon">🎮</div>
-          <h3>Sevrage ludique</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Les 3 modes -->
   <section id="modes" class="modes-section">
+    <div class="vape-accent vape-accent--md vape-accent--fade vape-accent--float vape-accent--bl" style="--vape-rot: 8deg" aria-hidden="true">
+      <img src="assets/ctrl-vape-clean.png" alt="" width="100" height="100" loading="lazy" decoding="async">
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">// Difficulté</span>
@@ -1498,68 +1876,25 @@
           </div>
         </div>
       </div>
-
-      <!-- Récompenses & Streak -->
-      <div class="modes-streak-rewards reveal" id="streak-rewards">
-        <div class="sr-tabs">
-          <div class="sr-tab active-streak">🔥 Streak</div>
-          <div class="sr-tab active-rewards">🏆 Récompenses</div>
-        </div>
-
-        <div class="sr-body">
-          <div class="sr-panel streak-side">
-            <h3>// Le streak</h3>
-            <p>Chaque jour où tu respectes ton objectif, ton compteur augmente. Le streak agis comme multiplicateur de points d'xp! </p>
-            <div class="sr-streak-counter"><span data-count="14">0</span> JOURS 🔥</div>
-            <div class="sr-milestones">
-              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 3 jours" data-modal-title="Multiplicateur ×1,3" data-modal-body="Atteins 3 jours consécutifs sans dépasser ton objectif. Tous les points boutique gagnés ce jour-là sont multipliés par 1,3." data-modal-reward="🪙 Points boutique ×1,3">3j · ×1,3</button>
-              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 7 jours" data-modal-title="Multiplicateur ×1,8" data-modal-body="Une semaine de contrôle. Tes gains de points boutique passent à ×1,8. Débloque aussi des récompenses partenaires de base." data-modal-reward="🪙 Points boutique ×1,8">7j · ×1,8</button>
-              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 30 jours" data-modal-title="Multiplicateur ×2,5" data-modal-body="Un mois de discipline. Multiplicateur ×2,5 sur tous les points boutique + accès aux offres premium partenaires." data-modal-reward="🪙 Points boutique ×2,5">30j · ×2,5</button>
-              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 100 jours" data-modal-title="Multiplicateur ×3,5" data-modal-body="Le palier légendaire. ×3,5 sur l'XP convertie en points boutique. Récompenses exclusives et saveurs limitées débloquées." data-modal-reward="⚡ XP & points boutique ×3,5">100j · ×3,5</button>
-            </div>
-            <p style="margin-top:16px;margin-bottom:0;font-size:0.9rem">Clique sur un palier pour voir le multiplicateur. Plus le streak est long, plus tu gagnes.</p>
-          </div>
-
-          <div class="sr-panel rewards-side">
-            <h3>// Les récompenses</h3>
-            <p>XP, badges, coffres à loot et avantages réels via partenariats. Chaque palier célébre ton avancée dans ta prise de contrôle .</p>
-            <div class="sr-loot">
-              <button type="button" class="sr-loot-item unlocked loot-btn" data-modal-tag="// Récompense débloquée" data-modal-title="Discount Boutique — 7 jours" data-modal-body="Échange tes points boutique contre une réduction sur la boutique CTRL+ : pods, accessoires et saveurs exclusives." data-modal-reward="Coût : 350 points boutique">
-                <span>🔓</span>
-                <span>Discount Boutique — Streak 7j</span>
-              </button>
-              <button type="button" class="sr-loot-item locked loot-btn" data-modal-tag="// Récompense verrouillée" data-modal-title="Séance de sport — 30 jours" data-modal-body="Débloque une séance offerte chez un partenaire fitness en maintenant un streak de 30 jours en mode Contrôle+." data-modal-reward="Coût : 800 points boutique">
-                <span>🔒</span>
-                <span>Séance de sport — Streak 30j</span>
-              </button>
-              <button type="button" class="sr-loot-item locked loot-btn" data-modal-tag="// Récompense verrouillée" data-modal-title="Réduction partenaire — Niveau 10" data-modal-body="Accède à des réductions chez nos partenaires bien-être, food et loisirs." data-modal-reward="Coût : 1 200 points boutique">
-                <span>🔒</span>
-                <span>Réduction partenaire — Niveau 10</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="sr-malus-bar">
-          <span class="sr-malus-icon">⚡</span>
-          <div>
-            <h4>// Système malus — Mode Contrôle+</h4>
-            <p>Si tu utilises un <strong>bonus d'urgence</strong>, <strong>lèves une limite</strong> ou <strong>dépasses ton objectif</strong>, Ton streak reviens a 0 et une partie de tes gains XP. Le choix t'appartient mais chaque décision a une consequence visible, pour le meilleur et le pire.</p>
-            <span class="sr-badge-mode">Actif en Contrôle+ uniquement</span>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- App preview -->
+  <!-- Dashboard -->
   <section id="app">
+    <div class="vape-accent vape-accent--sm vape-accent--fade vape-accent--float vape-accent--tr" style="--vape-rot: 6deg" aria-hidden="true">
+      <img src="assets/ctrl-vape-v2-clean.png" alt="" width="72" height="72" loading="lazy" decoding="async">
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">// Interface</span>
-        <h2 class="section-title">Une interface pour suivre ton évolution</h2>
-        <p class="section-desc">Progression visible et motivante au centre de tout. Clique sur les éléments pour en savoir plus.</p>
+        <h2 class="section-title">Dashboard</h2>
+        <p class="section-desc">Ta progression en un coup d'œil. Clique sur les éléments pour en savoir plus.</p>
       </div>
+
+      <p class="app-vape-inline reveal" aria-hidden="true">
+        <img src="assets/ctrl-vape-v2-clean.png" alt="" width="48" height="48" loading="lazy" decoding="async">
+        <span>E-cigarette CTRL+ · connectée à l'app</span>
+      </p>
 
       <div class="app-preview-grid">
         <div class="app-panel reveal">
@@ -1630,206 +1965,11 @@
     </div>
   </section>
 
-  <!-- Boutique -->
-  <section id="boutique" class="boutique-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-tag">// Économie CTRL+</span>
-        <h2 class="section-title">Points boutique</h2>
-        <p class="section-desc">Ton XP et tes streaks se transforment en monnaie échangeable. Clique sur une récompense pour voir le coût.</p>
-      </div>
-
-      <div class="boutique-intro reveal">
-        <h3>// Comment ça marche ?</h3>
-        <p>Chaque jour respecté en mode <strong style="color:var(--gold)">Contrôle+</strong>, tu gagnes de l'XP. Cette XP est convertie en <strong style="color:var(--gold)">points boutique</strong>. Ton streak agit comme multiplicateur — jusqu'à ×3,5 à 100 jours.</p>
-        <div class="boutique-flow">
-          <span>XP gagnée</span>
-          <span class="arrow">→</span>
-          <span>Points boutique</span>
-          <span class="arrow">→</span>
-          <span>Récompenses</span>
-        </div>
-      </div>
-
-      <div class="boutique-grid reveal">
-        <button type="button" class="boutique-item" data-modal-tag="// Boutique CTRL+" data-modal-title="Nouvelles saveurs" data-modal-body="Échange tes points contre des pods et e-liquides exclusifs CTRL+ : fruits rouges, menthe glacier, tabac vanillé… Des saveurs limitées réservées aux membres actifs." data-modal-reward="À partir de 200 points boutique">
-          <span style="font-size:2rem">🍇</span>
-          <div class="partner-name" style="margin-top:12px">Nouvelles saveurs</div>
-          <div class="boutique-cost">200 – 500 pts</div>
-        </button>
-        <button type="button" class="boutique-item" data-modal-tag="// Partenaires" data-modal-title="Réductions partenaires" data-modal-body="Bons de réduction chez nos partenaires : sport, alimentation saine, bien-être et loisirs. Plus ton streak est élevé, plus les offres sont premium." data-modal-reward="À partir de 350 points boutique">
-          <span style="font-size:2rem">🤝</span>
-          <div class="partner-name" style="margin-top:12px">Réductions partenaires</div>
-          <div class="boutique-cost">350 – 1 200 pts</div>
-        </button>
-        <button type="button" class="boutique-item" data-modal-tag="// Exclusif" data-modal-title="Éditions limitées" data-modal-body="Skins d'app, pods collector et accessoires exclusifs. Réservé aux joueurs avec un streak élevé ou un niveau avancé." data-modal-reward="À partir de 800 points boutique">
-          <span style="font-size:2rem">💎</span>
-          <div class="partner-name" style="margin-top:12px">Éditions limitées</div>
-          <div class="boutique-cost">800+ pts</div>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Fonctionnement -->
-  <section id="systeme">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-tag">// Mécaniques de jeu</span>
-        <h2 class="section-title">Comment CTRL+ fonctionne</h2>
-        <p class="section-desc">Un système intelligent qui s'adapte à toi — avec des règles claires, pas de punition aveugle.</p>
-      </div>
-
-      <div class="mechanics-grid">
-        <div class="mechanic-card reveal">
-          <div class="mechanic-phase">Phase 1 — Apprentissage</div>
-          <h3>7 jours sans restriction</h3>
-          <p>Pendant la première semaine, aucune limite. L'app observe et mesure en silence :</p>
-          <div class="mechanic-example">
-            <strong>Nombre de puffs</strong> · <strong>Fréquence</strong> · <strong>Heures de consommation</strong>
-          </div>
-          <p style="margin-top:12px">À la fin, l'application calcule ton profil utilisateur et propose un plan adapté.</p>
-        </div>
-
-        <div class="mechanic-card reveal">
-          <div class="mechanic-phase">Phase 2 — Limite intelligente</div>
-          <h3>Un objectif réaliste, pas brutal</h3>
-          <p>À partir de ta moyenne observée, CTRL+ propose une réduction douce :</p>
-          <div class="mechanic-example">
-            Moyenne observée : <strong>140 puffs/jour</strong><br>
-            CTRL+ propose : <strong>120 puffs/jour</strong>
-          </div>
-          <p style="margin-top:12px">La limite évolue avec ta progression. Pas de choc, pas d'abandon.</p>
-        </div>
-
-        <div class="mechanic-card wide reveal">
-          <div class="mechanic-phase">Phase 3 — Réservoir dynamique</div>
-          <h3>Du stock au réveil, pas un blocage sur 24h</h3>
-          <p>Au lieu de bloquer d'un coup, CTRL+ distribue tes puffs intelligemment pour éviter la frustration :</p>
-          <div class="reservoir-visual">
-            <div class="reservoir-block filled">Réveil<br>Stock dispo</div>
-            <span class="reservoir-arrow">→</span>
-            <div class="reservoir-block active">+40 puffs<br>recharge périodique</div>
-            <span class="reservoir-arrow">→</span>
-            <div class="reservoir-block">Plafond<br>journalier</div>
-          </div>
-        </div>
-
-        <div class="mechanic-card reveal">
-          <div class="mechanic-phase">Bonus de secours — Mode Contrôle+</div>
-          <h3>Puffs d'urgence en dernier recours</h3>
-          <p>Quand le stock est vide, tu peux activer volontairement un bonus de secours. Disponible uniquement en mode Contrôle+.</p>
-          <div class="tradeoff positive">Puffs immédiats pour débloquer la situation</div>
-          <div class="tradeoff negative">Perte du streak ou réduction des gains</div>
-          <div class="tradeoff negative">Pas de récompense ce jour-là</div>
-        </div>
-
-        <div class="mechanic-card reveal">
-          <div class="mechanic-phase">Mode Soirée 🍻</div>
-          <h3>Quota augmenté temporairement</h3>
-          <p>Une soirée prévue ? Active le mode volontairement pour débloquer un quota plus élevé.</p>
-          <div class="tradeoff positive">Plus de puffs ce soir</div>
-          <div class="tradeoff negative">Quota réduit le lendemain</div>
-          <div class="tradeoff negative">Ou blocage temporaire</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gamification -->
-  <section id="gamification" class="gamification-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-tag">// Le cœur du projet</span>
-        <h2 class="section-title">Gamification</h2>
-      </div>
-
-      <div class="gamification-philosophy reveal">
-        <p>
-          L'objectif n'est <span class="not">pas de punir</span>.<br>
-          L'objectif est de <span class="yes">donner envie de progresser</span>.
-        </p>
-        <p style="margin-top:16px;font-size:1rem;color:var(--text-muted);font-weight:400">XP, streaks et malus sont actifs en <strong style="color:var(--gold)">mode Contrôle+</strong> uniquement.</p>
-      </div>
-
-      <div class="game-systems">
-        <div class="game-panel reveal">
-          <h3>// Niveaux</h3>
-          <div class="level-track">
-            <div class="level-item">
-              <span class="level-num">NIV. 1</span>
-              <span class="level-name">Découverte</span>
-            </div>
-            <div class="level-item">
-              <span class="level-num">NIV. 5</span>
-              <span class="level-name">Contrôle</span>
-            </div>
-            <div class="level-item highlight">
-              <span class="level-num">NIV. 7</span>
-              <span class="level-name">CTRL Master</span>
-            </div>
-            <div class="level-item">
-              <span class="level-num">NIV. 10</span>
-              <span class="level-name">Maîtrise</span>
-            </div>
-            <div class="level-item">
-              <span class="level-num">NIV. 20</span>
-              <span class="level-name">Libéré</span>
-            </div>
-          </div>
-          <p style="color:var(--text-muted);font-size:0.9rem;margin-top:16px">Chaque jour respecté = XP gagnée. Plus tu progresses, plus ton compte évolue.</p>
-        </div>
-
-        <div class="game-panel reveal">
-          <h3>// Streaks</h3>
-          <div class="streak-milestones">
-            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 3 jours" data-modal-title="×1,3 points boutique" data-modal-body="Palier d'entrée : tous tes points boutique du jour sont multipliés par 1,3." data-modal-reward="Multiplicateur ×1,3">
-              <div class="streak-days">3</div>
-              <div class="streak-label">jours · ×1,3</div>
-            </button>
-            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 7 jours" data-modal-title="×1,8 points boutique" data-modal-body="Une semaine de contrôle. Multiplicateur ×1,8 + récompenses partenaires de base." data-modal-reward="Multiplicateur ×1,8">
-              <div class="streak-days">7</div>
-              <div class="streak-label">jours · ×1,8</div>
-            </button>
-            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 30 jours" data-modal-title="×2,5 points boutique" data-modal-body="Un mois sans faille. Multiplicateur ×2,5 et offres premium débloquées." data-modal-reward="Multiplicateur ×2,5">
-              <div class="streak-days">30</div>
-              <div class="streak-label">jours · ×2,5</div>
-            </button>
-            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 100 jours" data-modal-title="×3,5 XP & points" data-modal-body="Palier légendaire. ×3,5 sur l'XP convertie en points boutique. Saveurs limitées et éditions exclusives." data-modal-reward="Multiplicateur ×3,5">
-              <div class="streak-days">100</div>
-              <div class="streak-label">jours · ×3,5</div>
-            </button>
-          </div>
-          <p style="color:var(--text-muted);font-size:0.9rem;margin-top:16px">Clique sur un palier pour voir le multiplicateur.</p>
-        </div>
-      </div>
-
-      <div class="section-header reveal" style="margin-bottom:32px">
-        <h2 class="section-title" style="font-size:1.5rem">Badges à débloquer</h2>
-      </div>
-      <div class="badges-row reveal">
-        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="Première semaine" data-modal-body="7 jours consécutifs respectés. Récompense : +100 points boutique." data-modal-reward="+100 pts boutique">
-          <span class="badge-emoji">🏅</span>
-          <span class="badge-name">Première semaine</span>
-        </button>
-        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="-20% de consommation" data-modal-body="Tu as réduit ta consommation de 20% par rapport à ta baseline. Récompense : +250 points boutique." data-modal-reward="+250 pts boutique">
-          <span class="badge-emoji">📉</span>
-          <span class="badge-name">-20% de consommation</span>
-        </button>
-        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="30 jours sans bonus" data-modal-body="30 jours sans utiliser de bonus d'urgence. Récompense : saveur exclusive offerte." data-modal-reward="Saveur exclusive">
-          <span class="badge-emoji">🛡️</span>
-          <span class="badge-name">30 jours sans bonus</span>
-        </button>
-        <button type="button" class="badge-item" data-modal-tag="// Badge légendaire" data-modal-title="Maître du contrôle" data-modal-body="Niveau 20 atteint. Récompense : édition collector + 1 000 points boutique." data-modal-reward="+1 000 pts boutique">
-          <span class="badge-emoji">👑</span>
-          <span class="badge-name">Maître du contrôle</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
   <!-- Récompenses réelles -->
   <section id="rewards" class="rewards-section">
+    <div class="vape-accent vape-accent--sm vape-accent--ghost vape-accent--float vape-accent--tl" style="--vape-rot: -12deg" aria-hidden="true">
+      <img src="assets/ctrl-vape-clean.png" alt="" width="72" height="72" loading="lazy" decoding="async">
+    </div>
     <div class="container">
       <div class="rewards-showcase">
         <div class="partner-grid reveal">
@@ -1872,71 +2012,114 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- Liste d'attente -->
   <section id="cta" class="cta-section">
     <div class="container">
       <div class="cta-box reveal">
-        <h2>Prêt à appuyer sur <span style="color:var(--cyan)">CTRL+</span> ?</h2>
+        <div class="cta-vape-peek" aria-hidden="true">
+          <img src="assets/ctrl-vape-v2-clean.png" alt="" width="82" height="82" loading="lazy" decoding="async">
+        </div>
+        <h2>Liste d'attente</h2>
         <p class="cta-slogan">Reprends le contrôle, sans renoncer au plaisir.</p>
-        <p>Rejoins la liste d'attente et sois parmi les premiers joueurs.</p>
+        <p>Sois parmi les premiers à tester CTRL+ quand le MVP ouvre.</p>
         <div class="cta-buttons">
           <a href="rejoindre.html" class="btn btn-gold">Rejoindre la liste d'attente</a>
           <a href="contact.html" class="btn btn-outline">Nous contacter</a>
-          <a href="contact.html#soutenir" class="btn btn-outline">Nous soutenir</a>
         </div>
         <p class="cta-mvp">MVP V1 — Dashboard · Puffs · Streaks · XP · Mode soirée · Bonus de secours</p>
       </div>
     </div>
   </section>
 
-  <!-- Trust -->
-  <div class="container trust-strip reveal">
-    <div class="trust-item">
-      <span class="trust-item-icon">🛡️</span>
-      <div class="trust-item-title">Site sécurisé</div>
-      <div class="trust-item-text">HTTPS · CSP · anti-spam · validation formulaires</div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-item-icon">🔒</span>
-      <div class="trust-item-title">Données protégées</div>
-      <div class="trust-item-text">RGPD · Confidentialité · Limitation des envois</div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-item-icon">💳</span>
-      <div class="trust-item-title">Paiement sécurisé</div>
-      <div class="trust-item-text">Soutien via PayPal (paypal.me/QubeFR)</div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-item-icon">18+</span>
-      <div class="trust-item-title">Réservé aux majeurs</div>
-      <div class="trust-item-text">Nicotine addictive · Pas un dispositif médical</div>
-    </div>
-  </div>
-
-  <!-- Mentions légales -->
-  <section id="mentions-legales" class="legal-section">
+  <!-- En savoir plus (accordéons) -->
+  <section id="explorer" class="accordion-section">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">// Informations légales</span>
-        <h2 class="section-title">Transparence & conformité</h2>
-        <p class="section-desc">Informations claires sur l'éditeur, vos données et l'usage du site — conformément à la LCEN et au RGPD.</p>
+        <span class="section-tag">// Aller plus loin</span>
+        <h2 class="section-title">En savoir plus</h2>
+        <p class="section-desc">Concept, mécaniques, gamification et infos légales — ouvre seulement ce qui t'intéresse.</p>
       </div>
-      <div class="legal-content reveal">
-        <h3>Éditeur du site</h3>
-        <p>Site édité par <strong>Bordey Quincy</strong>, responsable du projet CTRL+ (phase MVP / pré-lancement). Les descriptions produit concernent une version en cours de conception — aucune vente active à ce stade.</p>
-        <p>Contact : <a href="mailto:Quincy.bordey@gmail.com" style="color:var(--cyan)">Quincy.bordey@gmail.com</a> · Directeur de publication : Bordey Quincy</p>
+      <div class="accordion-list">
 
-        <h3>Avertissement santé</h3>
-        <p>CTRL+ est un outil d'accompagnement à la réduction de consommation de nicotine. Il ne remplace pas un avis médical. Réservé aux personnes majeures (18+). La nicotine crée une dépendance.</p>
+        <details class="accordion-item reveal" id="concept">
+          <summary>Le concept<span class="accordion-tag">5 piliers · e-cigarette + app</span></summary>
+          <div class="accordion-body">
+            <div class="pillars-grid">
+              <div class="pillar reveal"><div class="pillar-icon">📊</div><h3>Analyse des habitudes</h3></div>
+              <div class="pillar reveal"><div class="pillar-icon">🎯</div><h3>Objectifs personnalisés</h3></div>
+              <div class="pillar reveal"><div class="pillar-icon">📉</div><h3>Limite progressive</h3></div>
+              <div class="pillar reveal"><div class="pillar-icon">🏅</div><h3>Récompense des efforts</h3></div>
+              <div class="pillar reveal"><div class="pillar-icon">🎮</div><h3>Sevrage ludique</h3></div>
+            </div>
+          </div>
+        </details>
 
-        <div class="legal-links">
-          <a href="mentions-legales.html">Mentions légales complètes</a>
-          <a href="confidentialite.html">Politique de confidentialité</a>
-          <a href="cgu.html">Conditions d'utilisation</a>
-          <a href="cookies.html">Politique cookies</a>
-          <a href="contact.html">Nous contacter</a>
-          <a href="contact.html#soutenir">Nous soutenir</a>
-        </div>
+        <details class="accordion-item reveal" id="streak-rewards">
+          <summary>Streaks & multiplicateurs<span class="accordion-tag">×1,3 → ×3,5 · Contrôle+</span></summary>
+          <div class="accordion-body">
+            <div class="modes-streak-rewards reveal">
+              <div class="sr-streak-counter" style="margin-bottom:16px"><span data-count="14">0</span> JOURS 🔥</div>
+              <div class="sr-milestones">
+                <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 3 jours" data-modal-title="Multiplicateur ×1,3" data-modal-body="3 jours consécutifs : points boutique ×1,3." data-modal-reward="×1,3">3j · ×1,3</button>
+                <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 7 jours" data-modal-title="Multiplicateur ×1,8" data-modal-body="7 jours : ×1,8." data-modal-reward="×1,8">7j · ×1,8</button>
+                <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 30 jours" data-modal-title="Multiplicateur ×2,5" data-modal-body="30 jours : ×2,5." data-modal-reward="×2,5">30j · ×2,5</button>
+                <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 100 jours" data-modal-title="Multiplicateur ×3,5" data-modal-body="100 jours : ×3,5 sur XP et points." data-modal-reward="×3,5">100j · ×3,5</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="accordion-item reveal" id="boutique">
+          <summary>Points boutique<span class="accordion-tag">XP → points → récompenses</span></summary>
+          <div class="accordion-body">
+            <div class="boutique-intro reveal">
+              <p>XP convertie en <strong style="color:var(--gold)">points boutique</strong>, multipliée par ton streak (jusqu'à ×3,5).</p>
+              <div class="boutique-flow"><span>XP</span><span class="arrow">→</span><span>Points</span><span class="arrow">→</span><span>Récompenses</span></div>
+            </div>
+            <div class="boutique-grid reveal">
+              <button type="button" class="boutique-item" data-modal-tag="// Boutique" data-modal-title="Nouvelles saveurs" data-modal-body="Pods et e-liquides exclusifs CTRL+." data-modal-reward="200 – 500 pts"><span style="font-size:2rem">🍇</span><div class="partner-name" style="margin-top:12px">Saveurs</div><div class="boutique-cost">200 – 500 pts</div></button>
+              <button type="button" class="boutique-item" data-modal-tag="// Partenaires" data-modal-title="Réductions" data-modal-body="Sport, food, bien-être." data-modal-reward="350+ pts"><span style="font-size:2rem">🤝</span><div class="partner-name" style="margin-top:12px">Partenaires</div><div class="boutique-cost">350+ pts</div></button>
+            </div>
+          </div>
+        </details>
+
+        <details class="accordion-item reveal" id="systeme">
+          <summary>Comment ça fonctionne<span class="accordion-tag">Apprentissage · limites · réservoir</span></summary>
+          <div class="accordion-body">
+            <div class="mechanics-grid">
+              <div class="mechanic-card reveal"><div class="mechanic-phase">Phase 1</div><h3>7 jours d'apprentissage</h3><p>L'app observe sans limiter, puis propose un plan adapté.</p></div>
+              <div class="mechanic-card reveal"><div class="mechanic-phase">Phase 2</div><h3>Limite progressive</h3><p>Réduction douce basée sur ta moyenne réelle.</p></div>
+              <div class="mechanic-card wide reveal"><div class="mechanic-phase">Phase 3</div><h3>Réservoir dynamique</h3><p>Stock au réveil + recharges de 40 puffs.</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="accordion-item reveal" id="gamification">
+          <summary>Gamification<span class="accordion-tag">Niveaux · badges</span></summary>
+          <div class="accordion-body">
+            <div class="gamification-philosophy reveal"><p>L'objectif est de <span class="yes">donner envie de progresser</span>, pas de punir.</p></div>
+            <div class="badges-row reveal" style="margin-top:16px">
+              <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="Première semaine" data-modal-body="+100 pts boutique." data-modal-reward="+100 pts"><span class="badge-emoji">🏅</span><span class="badge-name">Première semaine</span></button>
+              <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="Maître du contrôle" data-modal-body="Niveau 20." data-modal-reward="+1000 pts"><span class="badge-emoji">👑</span><span class="badge-name">Maître du contrôle</span></button>
+            </div>
+          </div>
+        </details>
+
+        <details class="accordion-item reveal" id="mentions-legales">
+          <summary>Transparence & légal<span class="accordion-tag">RGPD · +18 ans</span></summary>
+          <div class="accordion-body">
+            <div class="legal-content reveal">
+              <p>Site édité par <strong>Bordey Quincy</strong> — MVP CTRL+. <a href="mailto:Quincy.bordey@gmail.com" style="color:var(--cyan)">Quincy.bordey@gmail.com</a></p>
+              <div class="legal-links" style="margin-top:16px">
+                <a href="mentions-legales.html">Mentions légales</a>
+                <a href="confidentialite.html">Confidentialité</a>
+                <a href="cgu.html">CGU</a>
+                <a href="cookies.html">Cookies</a>
+              </div>
+            </div>
+          </div>
+        </details>
+
       </div>
     </div>
   </section>
@@ -2062,8 +2245,61 @@
       const streakObs = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) { animateCount(srStreak, 1200); streakObs.disconnect(); }
       }, { threshold: 0.5 });
-      streakObs.observe(srStreak.closest('.modes-streak-rewards'));
+      streakObs.observe(srStreak.closest('.modes-streak-rewards') || srStreak);
     }
+
+    function activateAccordionContent(details) {
+      if (!details.open) return;
+      details.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+      details.querySelectorAll('[data-count]').forEach(el => {
+        if (el.dataset.animated) return;
+        animateCount(el, 1200);
+        el.dataset.animated = '1';
+      });
+      details.querySelectorAll('.xp-bar[data-xp]').forEach(bar => animateXpBar(bar));
+    }
+
+    document.querySelectorAll('.accordion-item').forEach(details => {
+      details.addEventListener('toggle', () => activateAccordionContent(details));
+    });
+
+    function openAccordionFromHash() {
+      const id = location.hash.replace('#', '');
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (target && target.tagName === 'DETAILS') {
+        target.open = true;
+        activateAccordionContent(target);
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      }
+    }
+    openAccordionFromHash();
+    window.addEventListener('hashchange', openAccordionFromHash);
+
+    document.querySelectorAll('.why-card-wrap').forEach(wrap => {
+      const btn = wrap.querySelector('.why-card');
+      const panel = wrap.querySelector('.why-panel');
+      if (!btn || !panel) return;
+
+      btn.addEventListener('click', () => {
+        const willOpen = !wrap.classList.contains('is-open');
+
+        document.querySelectorAll('.why-card-wrap.is-open').forEach(other => {
+          other.classList.remove('is-open');
+          const otherBtn = other.querySelector('.why-card');
+          const otherPanel = other.querySelector('.why-panel');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+          if (otherPanel) otherPanel.setAttribute('aria-hidden', 'true');
+        });
+
+        if (willOpen) {
+          wrap.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          panel.setAttribute('aria-hidden', 'false');
+          setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+        }
+      });
+    });
 
     const modal = document.getElementById('infoModal');
     const modalTag = document.getElementById('modalTag');
