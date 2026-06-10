@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0D1117">
+  <meta name="description" content="Contactez le projet CTRL+ — formulaire sécurisé, réponse par email sous 48h. Bordey Quincy.">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), usb=()">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  <title>Contact — CTRL+</title>
+  <link rel="stylesheet" href="css/security.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0D1117; --bg-card: #161B22; --violet: #A855F7; --violet-glow: rgba(168,85,247,0.4);
+      --blue: #3B82F6; --cyan: #22D3EE; --cyan-glow: rgba(34,211,238,0.35);
+      --gold: #FBBF24; --gold-glow: rgba(251,191,36,0.45);
+      --text: #E6EDF3; --text-muted: #8B949E; --border: rgba(168,85,247,0.2);
+      --font-display: 'Orbitron', sans-serif; --font-body: 'Rajdhani', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --success: #34D399; --error: #F87171;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(168,85,247,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168,85,247,0.03) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none; z-index: 0;
+    }
+    .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+    .orb-1 { width: 400px; height: 400px; background: var(--violet-glow); top: -5%; right: -5%; }
+    .orb-2 { width: 300px; height: 300px; background: var(--cyan-glow); bottom: 10%; left: -8%; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 0; background: rgba(13,17,23,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; text-decoration: none; color: var(--text); letter-spacing: 2px; }
+    .logo span { color: var(--cyan); }
+    .nav-back {
+      color: var(--text-muted); text-decoration: none; font-size: 0.8rem; letter-spacing: 1px;
+      text-transform: uppercase; font-weight: 600; transition: color 0.3s;
+    }
+    .nav-back:hover { color: var(--cyan); }
+    .page-hero { padding: 120px 0 48px; text-align: center; }
+    .page-tag { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 3px; color: var(--violet); text-transform: uppercase; margin-bottom: 12px; display: block; }
+    .page-title { font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 16px; }
+    .page-desc { color: var(--text-muted); font-size: 1.1rem; max-width: 520px; margin: 0 auto; }
+    .form-card {
+      background: var(--bg-card); border: 1px solid var(--border); padding: 32px;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+      margin-bottom: 48px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; padding: 14px 16px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font-body); font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none; border-color: var(--cyan); box-shadow: 0 0 16px var(--cyan-glow);
+    }
+    .form-textarea { min-height: 160px; resize: vertical; }
+    .form-check { display: flex; gap: 12px; align-items: flex-start; font-size: 0.9rem; color: var(--text-muted); }
+    .form-check input { margin-top: 4px; accent-color: var(--violet); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 32px; font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: none;
+      cursor: pointer; transition: all 0.4s var(--ease-out-expo); width: 100%;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--blue)); color: white;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      box-shadow: 0 0 24px var(--violet-glow);
+    }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 0 40px var(--violet-glow); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-alert {
+      padding: 16px 20px; margin-bottom: 24px; font-weight: 600; display: none;
+      border: 1px solid; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+    .form-alert.show { display: block; }
+    .form-alert.success { border-color: var(--success); background: rgba(52,211,153,0.1); color: var(--success); }
+    .form-alert.error { border-color: var(--error); background: rgba(248,113,113,0.1); color: var(--error); }
+    .contact-info {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+    }
+    .info-box {
+      padding: 20px; background: rgba(34,211,238,0.05); border: 1px solid rgba(34,211,238,0.2); text-align: center;
+    }
+    .info-box strong { display: block; font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 2px; color: var(--cyan); margin-bottom: 8px; }
+    .info-box span { color: var(--text-muted); font-size: 0.95rem; }
+    footer {
+      padding: 32px 0; border-top: 1px solid var(--border); text-align: center;
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; list-style: none; margin-bottom: 12px; }
+    .footer-note { font-size: 0.8rem; max-width: 520px; margin: 12px auto 0; }
+    .cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: rgba(22,27,34,0.98); border-top: 1px solid var(--border);
+      padding: 16px 24px; display: none; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .cookie-banner.show { display: flex; }
+    .cookie-banner p { color: var(--text-muted); font-size: 0.9rem; max-width: 560px; }
+    .cookie-banner a { color: var(--cyan); }
+    .cookie-btn {
+      padding: 10px 20px; font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 1px; text-transform: uppercase; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--violet), #3B82F6); color: white;
+    }
+    @media (max-width: 600px) {
+      .form-card { padding: 24px 20px; }
+      .contact-info { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">CTRL<span>+</span></a>
+      <a href="index.html" class="nav-back">← Retour au site</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-hero">
+      <span class="page-tag">// Contact</span>
+      <h1 class="page-title">Écris-nous</h1>
+      <p class="page-desc">Une question, une idée ou un partenariat ? Envoie ton message directement — tu restes sur le site, on te répond par email.</p>
+    </header>
+
+    <div class="contact-info">
+      <div class="info-box">
+        <strong>Responsable</strong>
+        <span>Bordey Quincy</span>
+      </div>
+      <div class="info-box">
+        <strong>Email</strong>
+        <span>Quincy.bordey@gmail.com</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-alert success" id="formSuccess" role="status">
+        Message envoyé ! Nous te répondrons à l'adresse indiquée sous 48 h.
+      </div>
+      <div class="form-alert error" id="formError" role="alert">
+        Une erreur est survenue. Réessaie dans quelques instants ou écris directement à Quincy.bordey@gmail.com
+      </div>
+
+      <form id="contactForm" novalidate>
+        <div class="hp-field" aria-hidden="true">
+          <label for="website">Ne pas remplir</label>
+          <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="name">Nom / Pseudo</label>
+          <input class="form-input" type="text" id="name" name="name" required autocomplete="name" placeholder="Ton nom" minlength="2" maxlength="100">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" required autocomplete="email" placeholder="ton@email.com" maxlength="254">
+        </div>
+        <div class="form-group">
+          <label for="subject">Sujet</label>
+          <select class="form-select" id="subject" name="subject" required>
+            <option value="">Choisir un sujet</option>
+            <option value="Question générale">Question générale</option>
+            <option value="Partenariat">Partenariat</option>
+            <option value="Presse / Média">Presse / Média</option>
+            <option value="Support technique">Support technique</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea class="form-textarea" id="message" name="message" required placeholder="Ton message…" maxlength="5000"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="consent" name="consent" required>
+            <span>J'accepte que mes données soient utilisées pour répondre à ma demande (<a href="confidentialite.html" style="color:var(--cyan)">politique de confidentialité</a> · <a href="cgu.html" style="color:var(--cyan)">CGU</a>).</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Envoyer le message</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgu.html">CGU</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
+      <li><a href="rejoindre.html">Rejoindre</a></li>
+    </ul>
+    <p>© 2026 CTRL+ · Bordey Quincy · <a href="mailto:Quincy.bordey@gmail.com">Quincy.bordey@gmail.com</a></p>
+    <p class="footer-note">Projet MVP en développement · Réservé aux +18 ans · Données traitées conformément au RGPD</p>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookies">
+    <p>Cookie technique pour mémoriser votre choix. <a href="cookies.html">En savoir plus</a></p>
+    <button type="button" class="cookie-btn" id="cookieAccept">J'accepte</button>
+  </div>
+
+  <script src="js/security.js"></script>
+  <script>
+    CTRLSecurity.bindForm(document.getElementById('contactForm'), {
+      rateKey: 'contact',
+      subjectPrefix: '[CTRL+ Contact]',
+      successEl: document.getElementById('formSuccess'),
+      errorEl: document.getElementById('formError'),
+      btn: document.getElementById('submitBtn'),
+      btnLabel: 'Envoyer le message',
+      buildFields: function (form, sanitize) {
+        var subj = sanitize(form.subject.value, 120);
+        return {
+          subject: '[CTRL+ Contact] ' + subj,
+          message: sanitize(form.message.value, 5000)
+        };
+      }
+    });
+  </script>
+</body>
+</html>

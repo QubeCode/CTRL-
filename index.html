@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0D1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="CTRL+ — Projet d'e-cigarette intelligente et application de réduction progressive. MVP en développement. Liste d'attente, contact et soutien transparent. Réservé aux +18 ans.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Bordey Quincy">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CTRL+ — Reprends le contrôle, sans renoncer au plaisir">
+  <meta property="og:description" content="E-cigarette connectée + app gamifiée pour mesurer et réduire sa consommation. Projet MVP porté par Bordey Quincy.">
+  <meta property="og:locale" content="fr_FR">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), usb=(), payment=(self)">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  <title>CTRL+ — Reprends le contrôle, sans renoncer au plaisir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0D1117;
+      --bg-card: #161B22;
+      --bg-elevated: #1C2128;
+      --violet: #A855F7;
+      --violet-glow: rgba(168, 85, 247, 0.4);
+      --blue: #3B82F6;
+      --blue-glow: rgba(59, 130, 246, 0.4);
+      --cyan: #22D3EE;
+      --cyan-glow: rgba(34, 211, 238, 0.35);
+      --gold: #FBBF24;
+      --gold-glow: rgba(251, 191, 36, 0.45);
+      --text: #E6EDF3;
+      --text-muted: #8B949E;
+      --border: rgba(168, 85, 247, 0.2);
+      --font-display: 'Orbitron', sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(32px); filter: blur(8px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes line-expand {
+      from { transform: scaleX(0); opacity: 0; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+    @keyframes xp-shimmer {
+      0% { left: -30%; opacity: 0; }
+      30% { opacity: 1; }
+      100% { left: 130%; opacity: 0; }
+    }
+    @keyframes xp-edge-pulse {
+      0%, 100% { box-shadow: 0 0 8px #fff, 0 0 16px var(--cyan); transform: translateY(-50%) scale(1); }
+      50% { box-shadow: 0 0 14px #fff, 0 0 28px var(--violet); transform: translateY(-50%) scale(1.3); }
+    }
+    @keyframes streak-fire {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--gold-glow); }
+      50% { transform: scale(1.03); box-shadow: 0 0 40px var(--gold-glow), 0 0 60px rgba(251,191,36,0.2); }
+    }
+    @keyframes glow-breathe {
+      0%, 100% { text-shadow: 0 0 20px var(--cyan-glow); }
+      50% { text-shadow: 0 0 40px var(--cyan-glow), 0 0 80px var(--violet-glow); }
+    }
+    @keyframes stat-pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes loot-unlock {
+      0% { transform: translateX(-8px); opacity: 0.5; }
+      50% { transform: translateX(4px); box-shadow: 0 0 30px var(--gold-glow); }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes border-scan {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    img { max-width: 100%; height: auto; display: block; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+    .scanlines {
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+      pointer-events: none; z-index: 1;
+    }
+    .orb {
+      position: fixed; border-radius: 50%; filter: blur(80px);
+      pointer-events: none; z-index: 0;
+      animation: orb-float 8s ease-in-out infinite;
+    }
+    .orb-1 { width: 500px; height: 500px; background: var(--violet-glow); top: -10%; right: -5%; }
+    .orb-2 { width: 400px; height: 400px; background: var(--blue-glow); bottom: 20%; left: -10%; animation-delay: -3s; }
+    .orb-3 { width: 300px; height: 300px; background: var(--cyan-glow); top: 50%; left: 50%; animation-delay: -5s; }
+
+    @keyframes orb-float {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(30px,-20px) scale(1.05); }
+      66% { transform: translate(-20px,15px) scale(0.95); }
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 16px 0;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.5s var(--ease-out-expo), background 0.5s var(--ease-out-expo), box-shadow 0.5s;
+    }
+    nav.scrolled {
+      padding: 10px 0;
+      background: rgba(13,17,23,0.95);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; position: relative; }
+    .logo {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+      text-decoration: none; color: var(--text); letter-spacing: 2px; flex-shrink: 0;
+    }
+    .logo span { color: var(--cyan); text-shadow: 0 0 20px var(--cyan-glow); }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-weight: 500;
+      font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; width: 100%; height: 1px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s var(--ease-out-expo);
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; font-family: var(--font-display);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none; border: none;
+      cursor: pointer; transition: all 0.4s var(--ease-out-expo);
+      position: relative; overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute; top: 0; left: -75%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.7s var(--ease-out-expo);
+    }
+    .btn:hover::before { left: 125%; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--blue)); color: white;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      box-shadow: 0 0 30px var(--violet-glow);
+    }
+    .btn-primary:hover { box-shadow: 0 0 50px var(--violet-glow), 0 0 80px var(--blue-glow); transform: translateY(-2px); }
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B, var(--gold)); color: #0D1117;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      box-shadow: 0 0 30px var(--gold-glow);
+    }
+    .btn-gold:hover { box-shadow: 0 0 50px var(--gold-glow); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--cyan); border: 1px solid var(--cyan);
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    }
+    .btn-outline:hover { background: rgba(34,211,238,0.1); box-shadow: 0 0 20px var(--cyan-glow); }
+
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; }
+    .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; background: rgba(168,85,247,0.15); border: 1px solid var(--border);
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--violet); margin-bottom: 24px;
+      clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    }
+    .hero-badge::before {
+      content: ''; width: 8px; height: 8px; background: var(--cyan);
+      border-radius: 50%; box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .hero-brand {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: 900; line-height: 1; margin-bottom: 24px;
+      letter-spacing: 4px;
+    }
+    .hero-brand .plus {
+      color: var(--cyan);
+      text-shadow: 0 0 40px var(--cyan-glow);
+    }
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 600; line-height: 1.4; margin-bottom: 20px;
+      color: var(--text);
+    }
+    .hero-slogan {
+      font-family: var(--font-display); font-size: 0.85rem; font-weight: 500;
+      color: var(--text-muted); letter-spacing: 3px; margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .hero-desc { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 520px; }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+    /* Vape showcase */
+    .vape-showcase {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 600px;
+      perspective: 800px;
+      overflow: visible;
+    }
+
+    .vape-halo-outer { display: none; }
+    .vape-particles { display: none; }
+
+    .vape-fx {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    /* Halo pulsant */
+    .vape-halo {
+      position: absolute;
+      width: 440px; height: 440px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(59,130,246,0.2) 40%, transparent 70%);
+      filter: blur(28px);
+    }
+
+    /* Cercle énergétique rotatif */
+    .energy-ring {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      animation: energy-spin 20s linear infinite;
+      opacity: 0.5;
+    }
+    .energy-ring::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--violet);
+      border-right-color: var(--blue);
+      border-bottom-color: var(--cyan);
+      opacity: 0.85;
+      box-shadow: 0 0 30px var(--violet-glow), 0 0 50px rgba(168,85,247,0.15), inset 0 0 25px var(--blue-glow);
+    }
+    .energy-ring::after {
+      content: '';
+      position: absolute; inset: 24px;
+      border-radius: 50%;
+      border: 1px dashed rgba(34,211,238,0.4);
+      animation: energy-spin 18s linear infinite reverse;
+    }
+    @keyframes energy-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Particules flottantes */
+    .vape-particles {
+      position: absolute;
+      width: 460px; height: 460px;
+    }
+    .particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan-glow);
+      animation: particle-float var(--dur, 6s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
+    }
+    .particle:nth-child(odd) { background: var(--violet); box-shadow: 0 0 8px var(--violet-glow); }
+    @keyframes particle-float {
+      0% { transform: translate(0, 0) scale(0); opacity: 0; }
+      15% { opacity: 0.9; transform: translate(var(--tx, 10px), var(--ty, -20px)) scale(1); }
+      85% { opacity: 0.6; }
+      100% { transform: translate(calc(var(--tx, 10px) * 2), calc(var(--ty, -20px) * 2.5)) scale(0); opacity: 0; }
+    }
+
+    .vape-shadow {
+      position: absolute;
+      bottom: 40px;
+      width: 200px; height: 36px;
+      background: radial-gradient(ellipse, rgba(34,211,238,0.3) 0%, rgba(168,85,247,0.15) 40%, transparent 75%);
+      border-radius: 50%;
+      filter: blur(10px);
+      animation: shadow-pulse 6s ease-in-out infinite;
+      z-index: 1;
+    }
+    @keyframes shadow-pulse {
+      0%, 100% { transform: scaleX(1); opacity: 0.55; }
+      50% { transform: scaleX(0.8); opacity: 0.25; }
+    }
+
+    .vape-float {
+      position: relative;
+      z-index: 3;
+      will-change: transform;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(-8deg); }
+      50% { transform: translateY(-15px) rotate(-5deg); }
+      100% { transform: translateY(0px) rotate(-8deg); }
+    }
+
+    .vape-floating {
+      animation: float 6s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .vape-floating img {
+      width: clamp(280px, 36vw, 440px);
+      height: auto;
+      display: block;
+      background: transparent;
+      filter:
+        drop-shadow(0 0 18px rgba(168,85,247,0.5))
+        drop-shadow(0 0 40px rgba(168,85,247,0.25))
+        drop-shadow(0 28px 56px rgba(59,130,246,0.4));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Phone mockup — écran principal */
+    .phone-mockup { display: flex; justify-content: center; position: relative; }
+    .phone-frame {
+      width: 100%; max-width: 320px;
+      background: var(--bg-card); border: 2px solid var(--border);
+      border-radius: 32px; padding: 16px;
+      box-shadow: 0 0 80px rgba(168,85,247,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .phone-notch {
+      width: 100px; height: 24px; background: var(--bg);
+      border-radius: 0 0 16px 16px; margin: 0 auto 16px;
+    }
+    .app-screen { padding: 8px 4px; text-align: center; }
+
+    .app-level-tag {
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 4px; color: var(--text-muted); margin-bottom: 4px;
+    }
+    .app-rank {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+      letter-spacing: 3px; color: var(--violet);
+      text-shadow: 0 0 20px var(--violet-glow); margin-bottom: 20px;
+    }
+    .app-rank::after {
+      content: ''; display: block; width: 60px; height: 2px; margin: 8px auto 0;
+      background: linear-gradient(90deg, transparent, var(--violet), transparent);
+    }
+
+    .puff-circle-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 16px; }
+    .puff-circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .puff-circle-bg { fill: none; stroke: var(--bg); stroke-width: 8; }
+    .puff-circle-fill {
+      fill: none; stroke: url(#puffGrad); stroke-width: 8; stroke-linecap: round;
+      stroke-dasharray: 440; stroke-dashoffset: 132;
+    }
+    @keyframes circle-pulse {
+      0%, 100% { filter: drop-shadow(0 0 6px var(--cyan-glow)); }
+      50% { filter: drop-shadow(0 0 16px var(--cyan-glow)); }
+    }
+    .puff-circle-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .puff-count {
+      font-family: var(--font-display); font-size: 3rem; font-weight: 900;
+      color: var(--cyan); line-height: 1;
+      text-shadow: 0 0 30px var(--cyan-glow);
+      font-variant-numeric: tabular-nums;
+    }
+    .puff-label {
+      font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 4px; font-weight: 600;
+    }
+
+    .recharge-timer {
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+      color: var(--blue); letter-spacing: 1px; margin-bottom: 16px;
+    }
+    .recharge-timer span { color: var(--text-muted); font-weight: 400; }
+
+    .streak-display {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; background: rgba(251,191,36,0.1);
+      border: 1px solid rgba(251,191,36,0.3); margin-bottom: 20px;
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 2px; color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .app-xp-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .app-xp-label span:first-child { color: var(--gold); }
+    .xp-bar {
+      height: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 4px;
+      position: relative;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .xp-bar::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(10% - 1px),
+        rgba(255,255,255,0.04) calc(10% - 1px),
+        rgba(255,255,255,0.04) 10%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .xp-fill {
+      height: 100%;
+      width: 0;
+      position: relative;
+      background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
+      background-size: 200% 100%;
+      transition: width 2s var(--ease-out-expo);
+      z-index: 2;
+    }
+    .xp-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 60px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      z-index: 3;
+    }
+    .xp-fill::before {
+      content: '';
+      position: absolute;
+      right: -3px; top: 50%;
+      width: 8px; height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      z-index: 4;
+      animation: xp-edge-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes xp-glow {
+      0%, 100% { box-shadow: 0 0 12px var(--violet-glow), inset 0 0 8px rgba(255,255,255,0.1); }
+      50% { box-shadow: 0 0 24px var(--cyan-glow), 0 0 40px var(--violet-glow), inset 0 0 12px rgba(255,255,255,0.2); }
+    }
+    .xp-value { font-variant-numeric: tabular-nums; }
+
+    /* Sections */
+    section { padding: 100px 0; position: relative; z-index: 2; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-tag {
+      font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--violet); margin-bottom: 16px; display: block;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 16px;
+    }
+    .section-desc { color: var(--text-muted); font-size: 1.1rem; max-width: 640px; margin: 0 auto; }
+
+    /* App section — animations conservées */
+    #app .puff-circle-fill { animation: circle-pulse 3s ease-in-out infinite; }
+    #app .streak-display { animation: streak-fire 2.5s ease-in-out infinite; }
+    #app .xp-fill {
+      animation: gradient-shift 3s linear infinite, xp-glow 2s ease-in-out infinite;
+    }
+    #app .xp-fill::after { animation: xp-shimmer 2.5s ease-in-out infinite; }
+
+    /* Problem */
+    .problem-section { background: linear-gradient(180deg, transparent, rgba(59,130,246,0.03), transparent); }
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .problem-text h3 {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+      color: var(--blue); margin-bottom: 16px; letter-spacing: 1px;
+    }
+    .problem-text p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 16px; line-height: 1.8; }
+    .problem-highlight {
+      font-size: 1.2rem; font-weight: 600; color: var(--text);
+      border-left: 3px solid var(--violet); padding-left: 16px; margin-top: 24px;
+    }
+
+    .compare-cards { display: flex; flex-direction: column; gap: 12px; }
+    .compare-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 20px; transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .compare-card:hover { border-color: var(--violet); box-shadow: 0 0 20px var(--violet-glow); }
+    .compare-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+    .compare-card h4 {
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .compare-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Modes */
+    .modes-section { background: linear-gradient(180deg, transparent, rgba(168,85,247,0.04), transparent); }
+    .modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+    .mode-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 32px 28px; display: flex; flex-direction: column;
+      transition: all 0.4s;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+    .mode-card:hover { transform: translateY(-6px); }
+    .mode-card.mode-free:hover { border-color: var(--cyan); box-shadow: 0 0 30px var(--cyan-glow); }
+    .mode-card.mode-control:hover { border-color: var(--blue); box-shadow: 0 0 30px var(--blue-glow); }
+    .mode-card.mode-plus {
+      border-color: rgba(251,191,36,0.4);
+      background: linear-gradient(180deg, var(--bg-card), rgba(251,191,36,0.04));
+    }
+    .mode-card.mode-plus:hover { border-color: var(--gold); box-shadow: 0 0 40px var(--gold-glow); }
+    .mode-number {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 900;
+      margin-bottom: 8px; line-height: 1;
+    }
+    .mode-card.mode-free .mode-number { color: var(--cyan); }
+    .mode-card.mode-control .mode-number { color: var(--blue); }
+    .mode-card.mode-plus .mode-number { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+    .mode-name {
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 800;
+      letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .mode-audience {
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border); line-height: 1.6;
+    }
+    .mode-features { list-style: none; flex: 1; }
+    .mode-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.95rem; padding: 6px 0; color: var(--text-muted);
+    }
+    .mode-features li.yes::before { content: '✅'; flex-shrink: 0; font-size: 0.8rem; }
+    .mode-features li.no::before { content: '❌'; flex-shrink: 0; font-size: 0.8rem; }
+    .mode-features li.yes { color: var(--text); }
+    .mode-special {
+      margin-top: 20px; padding: 16px;
+      background: var(--bg); border: 1px solid var(--border);
+      font-size: 0.9rem; line-height: 1.6;
+    }
+    .mode-special strong { color: var(--cyan); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 2px; display: block; margin-bottom: 8px; }
+    .mode-card.mode-plus .mode-special { border-color: rgba(251,191,36,0.3); }
+    .mode-card.mode-plus .mode-special strong { color: var(--gold); }
+    .mode-malus { margin-top: 16px; }
+    .mode-malus li::before { content: '↓'; color: #F87171; font-weight: 700; }
+    .mode-malus li { color: #F87171; font-size: 0.9rem; padding: 4px 0; list-style: none; display: flex; gap: 8px; }
+
+    /* Streak & Récompenses — sous les modes */
+    .modes-streak-rewards {
+      margin-top: 64px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      overflow: hidden;
+    }
+    .sr-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .sr-tab {
+      flex: 1;
+      padding: 18px 24px;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .sr-tab.active-streak { color: var(--gold); border-bottom-color: var(--gold); background: rgba(251,191,36,0.05); }
+    .sr-tab.active-rewards { color: var(--violet); border-bottom-color: var(--violet); background: rgba(168,85,247,0.05); }
+    .sr-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .sr-panel {
+      padding: 36px 32px;
+      border-right: 1px solid var(--border);
+    }
+    .sr-panel:last-child { border-right: none; }
+    .sr-panel h3 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .sr-panel.streak-side h3 { color: var(--gold); }
+    .sr-panel.rewards-side h3 { color: var(--violet); }
+    .sr-panel p { color: var(--text-muted); font-size: 1rem; line-height: 1.75; margin-bottom: 20px; }
+    .sr-streak-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.35);
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      box-shadow: 0 0 25px var(--gold-glow);
+      margin-bottom: 20px;
+    }
+    .sr-milestones { display: flex; gap: 10px; flex-wrap: wrap; }
+    .streak-btn, .loot-btn, .badge-item, .partner-card, .boutique-item {
+      cursor: pointer;
+      font-family: inherit;
+      color: inherit;
+      text-align: inherit;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+    .streak-btn:active, .loot-btn:active, .boutique-item:active { transform: scale(0.97); }
+    .sr-milestone, .streak-btn {
+      padding: 10px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .streak-btn:hover, .sr-milestone.streak-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+    .streak-btn.active {
+      border-color: var(--gold);
+      background: rgba(251,191,36,0.1);
+      color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+    .sr-loot { display: flex; flex-direction: column; gap: 10px; }
+    .sr-loot-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; background: var(--bg);
+      border: 1px solid var(--border); font-size: 0.95rem;
+      width: 100%;
+    }
+    .loot-btn { width: 100%; }
+    .sr-malus-bar {
+      padding: 24px 32px;
+      background: linear-gradient(90deg, rgba(248,113,113,0.06), rgba(168,85,247,0.04));
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .sr-malus-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .sr-malus-bar h4 {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #F87171;
+      margin-bottom: 6px;
+    }
+    .sr-malus-bar p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+    .sr-malus-bar strong { color: var(--text); }
+    .sr-badge-mode {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      border: 1px solid rgba(251,191,36,0.4);
+      background: rgba(251,191,36,0.08);
+    }
+
+    /* Concept pillars */
+    .pillars-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    .pillar {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 24px 16px; text-align: center; transition: all 0.3s;
+    }
+    .pillar:hover { border-color: var(--cyan); transform: translateY(-4px); box-shadow: 0 0 25px var(--cyan-glow); }
+    .pillar-icon { font-size: 2rem; margin-bottom: 12px; }
+    .pillar h3 {
+      font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 1px; line-height: 1.4;
+    }
+
+    /* Mechanics */
+    .mechanics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .mechanic-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 32px; position: relative; transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+    .mechanic-card:hover { border-color: var(--blue); box-shadow: 0 0 30px var(--blue-glow); }
+    .mechanic-card.wide { grid-column: span 2; }
+    .mechanic-phase {
+      font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 3px;
+      color: var(--cyan); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .mechanic-card h3 {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+      margin-bottom: 12px; letter-spacing: 1px;
+    }
+    .mechanic-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 12px; }
+    .mechanic-example {
+      background: var(--bg); border: 1px solid rgba(59,130,246,0.2);
+      padding: 12px 16px; font-size: 0.9rem; margin-top: 12px;
+    }
+    .mechanic-example strong { color: var(--cyan); }
+    .tradeoff {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;
+    }
+    .tradeoff::before { content: '⚡'; flex-shrink: 0; }
+    .tradeoff.negative::before { content: '↓'; color: #F87171; }
+    .tradeoff.positive::before { content: '↑'; color: #4ADE80; }
+
+    .reservoir-visual {
+      display: flex; align-items: center; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .reservoir-block {
+      flex: 1; min-width: 60px; text-align: center; padding: 12px 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 1px;
+    }
+    .reservoir-block.active { border-color: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow); color: var(--cyan); }
+    .reservoir-block.filled { border-color: var(--violet); color: var(--violet); }
+    .reservoir-arrow { color: var(--text-muted); font-size: 0.8rem; }
+
+    /* Gamification */
+    .gamification-section { background: linear-gradient(180deg, transparent, rgba(168,85,247,0.04), transparent); }
+    .gamification-philosophy {
+      text-align: center; max-width: 700px; margin: 0 auto 64px;
+      padding: 32px; background: var(--bg-card); border: 1px solid var(--gold);
+      box-shadow: 0 0 40px var(--gold-glow);
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    }
+    .gamification-philosophy p {
+      font-size: 1.3rem; font-weight: 600; line-height: 1.6;
+    }
+    .gamification-philosophy .not { color: #F87171; text-decoration: line-through; opacity: 0.7; }
+    .gamification-philosophy .yes { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+
+    .game-systems { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-bottom: 64px; }
+    .game-panel {
+      background: var(--bg-card); border: 1px solid var(--border); padding: 32px;
+    }
+    .game-panel h3 {
+      font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 20px; color: var(--violet);
+    }
+
+    .level-track { display: flex; flex-direction: column; gap: 12px; }
+    .level-item {
+      display: flex; align-items: center; gap: 16px; padding: 12px;
+      background: var(--bg); border: 1px solid transparent; transition: all 0.3s;
+    }
+    .level-item:hover { border-color: var(--violet); }
+    .level-num {
+      font-family: var(--font-display); font-size: 0.7rem; font-weight: 800;
+      width: 48px; color: var(--cyan); flex-shrink: 0;
+    }
+    .level-name { font-weight: 600; font-size: 1rem; }
+    .level-item.highlight {
+      border-color: var(--gold); background: rgba(251,191,36,0.05);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+    .level-item.highlight .level-num { color: var(--gold); }
+
+    .streak-milestones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .streak-milestone {
+      text-align: center; padding: 16px 8px;
+      background: var(--bg); border: 1px solid var(--border);
+    }
+    .streak-days {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 900;
+      color: var(--gold); text-shadow: 0 0 15px var(--gold-glow);
+    }
+    .streak-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    .badges-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .streak-milestone.streak-btn {
+      border: 1px solid var(--border);
+      width: 100%;
+      cursor: pointer;
+    }
+    .badge-item {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      background: var(--bg); border: 2px solid var(--border);
+      padding: 20px; min-width: 140px; transition: all 0.3s;
+    }
+    .partner-card { background: var(--bg-card); border: 1px solid rgba(251,191,36,0.2); width: 100%; }
+    .badge-item:hover { border-color: var(--gold); box-shadow: 0 0 25px var(--gold-glow); transform: translateY(-4px); }
+    .badge-emoji { font-size: 2rem; }
+    .badge-name { font-size: 0.8rem; font-weight: 600; text-align: center; color: var(--text-muted); }
+
+    /* App preview */
+    .app-preview-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; align-items: start; }
+    .app-panel {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 24px; text-align: center;
+    }
+    .app-panel-tag {
+      font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 3px;
+      color: var(--cyan); margin-bottom: 16px; text-transform: uppercase;
+    }
+    .app-panel h3 {
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 20px;
+    }
+
+    .loot-grid { display: flex; flex-direction: column; gap: 10px; }
+    .loot-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; background: var(--bg);
+      border: 1px solid var(--border); text-align: left; transition: all 0.3s;
+    }
+    .loot-item.unlocked { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+    .loot-item.locked { opacity: 0.5; }
+    .loot-btn { background: var(--bg); border: 1px solid var(--border); padding: 14px 16px; text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; }
+    .loot-btn.unlocked { border-color: var(--gold); }
+    .loot-btn.locked { opacity: 0.55; }
+    .loot-status { font-size: 1.2rem; flex-shrink: 0; }
+    .loot-name { font-weight: 600; font-size: 0.95rem; }
+    .loot-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+    .profile-avatar {
+      width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 12px;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      border: 3px solid var(--cyan); box-shadow: 0 0 30px var(--cyan-glow);
+      display: flex; align-items: center; justify-content: center; font-size: 2rem;
+    }
+    .profile-level {
+      font-family: var(--font-display); font-size: 1.8rem; font-weight: 900;
+      color: var(--violet); margin-bottom: 20px;
+      text-shadow: 0 0 20px var(--violet-glow);
+    }
+    .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .profile-stat {
+      padding: 12px; background: var(--bg); border: 1px solid var(--border);
+    }
+    .profile-stat-value {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--cyan);
+      font-variant-numeric: tabular-nums;
+    }
+    .profile-stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    /* Real rewards */
+    .rewards-section { background: linear-gradient(180deg, transparent, rgba(251,191,36,0.03), transparent); }
+    .rewards-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .partner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .partner-card {
+      background: var(--bg-card); border: 1px solid rgba(251,191,36,0.2);
+      padding: 28px; text-align: center; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .partner-card:hover { border-color: var(--gold); transform: scale(1.03); box-shadow: 0 0 40px var(--gold-glow); }
+    .partner-emoji { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+    .partner-name {
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 1px; color: var(--gold); margin-bottom: 4px;
+    }
+    .partner-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+    .rewards-text h2 {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+      margin-bottom: 20px; line-height: 1.2;
+    }
+    .rewards-text h2 .gold { color: var(--gold); text-shadow: 0 0 30px var(--gold-glow); }
+    .rewards-text p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 16px; line-height: 1.8; }
+    .reward-highlight {
+      display: flex; align-items: center; gap: 16px; margin-top: 24px;
+      padding: 20px; background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3);
+    }
+    .reward-highlight-icon { font-size: 2.5rem; }
+    .reward-highlight-text strong { color: var(--gold); display: block; font-size: 1.1rem; margin-bottom: 4px; }
+    .reward-highlight-text span { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* CTA */
+    .cta-section { text-align: center; padding: 120px 0; }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(59,130,246,0.1));
+      border: 1px solid var(--border); padding: 80px 48px;
+      position: relative; overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 32px 100%, 0 calc(100% - 32px));
+    }
+    .cta-box::before {
+      content: 'CTRL+'; position: absolute;
+      font-family: var(--font-display); font-size: 12rem; font-weight: 900;
+      color: rgba(168,85,247,0.03); top: 50%; left: 50%;
+      transform: translate(-50%,-50%); white-space: nowrap; pointer-events: none;
+    }
+    .cta-box h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 900;
+      margin-bottom: 16px; position: relative;
+    }
+    .cta-box p { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 12px; position: relative; }
+    .cta-slogan {
+      font-family: var(--font-display); color: var(--cyan); font-size: 1rem;
+      letter-spacing: 1px; margin-bottom: 40px; position: relative;
+    }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .cta-mvp {
+      margin-top: 24px; font-size: 0.85rem; color: var(--text-muted);
+      position: relative; letter-spacing: 1px;
+    }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 48px 0; position: relative; z-index: 2; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+
+    .menu-toggle {
+      display: none;
+      background: none; border: none; color: var(--text);
+      font-size: 1.5rem; cursor: pointer;
+      min-width: 44px; min-height: 44px;
+      padding: 8px; border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .menu-toggle:active { background: rgba(168,85,247,0.15); }
+    .nav-menu-cta { display: none; }
+    .nav-cta { flex-shrink: 0; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Boutique */
+    .boutique-section { background: linear-gradient(180deg, transparent, rgba(251,191,36,0.04), transparent); }
+    .boutique-intro {
+      text-align: center; max-width: 720px; margin: 0 auto 48px;
+      padding: 28px; background: var(--bg-card); border: 1px solid rgba(251,191,36,0.25);
+    }
+    .boutique-intro h3 {
+      font-family: var(--font-display); font-size: 1rem; color: var(--gold);
+      letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .boutique-intro p { color: var(--text-muted); line-height: 1.8; font-size: 1.05rem; }
+    .boutique-flow {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      flex-wrap: wrap; margin-top: 20px;
+      font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 1px;
+    }
+    .boutique-flow span {
+      padding: 8px 14px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--cyan);
+    }
+    .boutique-flow .arrow { color: var(--text-muted); border: none; background: none; padding: 0; }
+    .boutique-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .boutique-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 24px; text-align: center;
+    }
+    .boutique-item:hover { border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow); }
+    .boutique-cost {
+      font-family: var(--font-display); font-size: 0.7rem; color: var(--gold);
+      letter-spacing: 1px; margin-top: 8px;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal.open { opacity: 1; visibility: visible; }
+    .modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+    }
+    .modal-box {
+      position: relative; z-index: 1;
+      background: var(--bg-card); border: 1px solid var(--border);
+      max-width: 440px; width: 100%; padding: 32px;
+      box-shadow: 0 0 60px var(--violet-glow);
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+    .modal.open .modal-box { transform: translateY(0) scale(1); }
+    .modal-close {
+      position: absolute; top: 12px; right: 16px;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.8rem; cursor: pointer; line-height: 1;
+      min-width: 44px; min-height: 44px;
+    }
+    .modal-tag {
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 3px; color: var(--violet); margin-bottom: 8px;
+    }
+    .modal-title {
+      font-family: var(--font-display); font-size: 1.2rem;
+      font-weight: 800; margin-bottom: 12px; color: var(--gold);
+    }
+    .modal-body { color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+    .modal-reward {
+      padding: 14px; background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.3);
+      font-weight: 600; color: var(--text); font-size: 0.95rem;
+    }
+
+    /* Mentions légales */
+    .legal-section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .legal-content { max-width: 800px; margin: 0 auto; }
+    .legal-content h3 {
+      font-family: var(--font-display); font-size: 0.85rem;
+      color: var(--cyan); letter-spacing: 2px; margin: 32px 0 12px;
+    }
+    .legal-content h3:first-child { margin-top: 0; }
+    .legal-content p, .legal-content li {
+      color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 8px;
+    }
+    .legal-content ul { padding-left: 20px; margin-bottom: 16px; }
+    .legal-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .legal-links a {
+      padding: 10px 16px; border: 1px solid var(--border); color: var(--cyan);
+      text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    }
+    .legal-links a:hover { border-color: var(--cyan); box-shadow: 0 0 16px var(--cyan-glow); }
+
+    .trust-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      margin-bottom: 0; position: relative; z-index: 2;
+    }
+    .trust-item {
+      text-align: center; padding: 16px 12px;
+      background: rgba(22,27,34,0.6); border: 1px solid var(--border);
+    }
+    .trust-item-icon { font-size: 1.25rem; margin-bottom: 6px; display: block; }
+    .trust-item-title {
+      font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;
+    }
+    .trust-item-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+    .cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: rgba(22,27,34,0.98); border-top: 1px solid var(--border);
+      padding: 16px 24px; display: none; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap; backdrop-filter: blur(12px);
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+    .cookie-banner.show { display: flex; }
+    .cookie-banner p { color: var(--text-muted); font-size: 0.9rem; max-width: 640px; margin: 0; }
+    .cookie-banner a { color: var(--cyan); }
+    .cookie-btn {
+      padding: 10px 20px; font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 1px; text-transform: uppercase; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--violet), var(--blue)); color: white; flex-shrink: 0;
+    }
+
+    .age-notice {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+      padding: 8px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;
+      color: var(--text-muted); border: 1px solid var(--border); background: rgba(22,27,34,0.5);
+    }
+
+    @media (max-width: 1024px) {
+      section { padding: 72px 0; }
+      .hero { padding: 100px 0 60px; min-height: auto; }
+      .hero-content { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      .hero-badge { margin-left: auto; margin-right: auto; }
+      .hero-desc { margin: 0 auto 32px; }
+      .hero-cta { justify-content: center; }
+      .modes-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+      .modes-streak-rewards { margin-top: 48px; }
+      .sr-body { grid-template-columns: 1fr; }
+      .sr-panel { border-right: none; border-bottom: 1px solid var(--border); }
+      .sr-panel:last-child { border-bottom: none; }
+      .vape-showcase { min-height: 340px; order: -1; }
+      .problem-grid { grid-template-columns: 1fr; gap: 32px; }
+      .pillars-grid { grid-template-columns: repeat(3, 1fr); }
+      .mechanics-grid { grid-template-columns: 1fr; }
+      .mechanic-card.wide { grid-column: span 1; }
+      .game-systems { grid-template-columns: 1fr; }
+      .app-preview-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .boutique-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .rewards-showcase { grid-template-columns: 1fr; gap: 32px; }
+      .section-header { margin-bottom: 48px; }
+      .orb-1 { width: 280px; height: 280px; }
+      .orb-2 { width: 220px; height: 220px; }
+      .orb-3 { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      section { padding: 56px 0; }
+      nav {
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-bottom: 12px;
+      }
+      footer { padding-bottom: max(40px, env(safe-area-inset-bottom)); }
+
+      .nav-links, .nav-cta { display: none; }
+      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: calc(100% + 8px); left: 0; right: 0;
+        background: rgba(13,17,23,0.98);
+        padding: 16px 20px max(20px, env(safe-area-inset-bottom));
+        gap: 4px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+        max-height: calc(100vh - 80px);
+        max-height: calc(100dvh - 80px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-links.open a {
+        display: block;
+        padding: 14px 12px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+      }
+      .nav-links.open a:active { background: rgba(168,85,247,0.1); }
+      .nav-menu-cta {
+        display: block;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
+      .nav-menu-cta .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+      }
+
+      .hero { padding: 88px 0 48px; }
+      .hero-brand { font-size: clamp(2.75rem, 14vw, 4rem); letter-spacing: 2px; }
+      .hero-tagline { font-size: clamp(1rem, 4.5vw, 1.2rem); }
+      .hero-desc { font-size: 1.05rem; }
+
+      .vape-showcase { min-height: 260px; order: 0; }
+      .hero-text { order: -1; }
+      .vape-halo { width: 240px; height: 240px; filter: blur(20px); }
+      .vape-halo-outer { width: 280px; height: 280px; filter: blur(28px); }
+      .energy-ring { width: 220px; height: 220px; }
+      .vape-particles { width: 260px; height: 260px; }
+      .vape-shadow { width: 140px; bottom: 30px; }
+      .vape-floating img { width: clamp(180px, 52vw, 260px); }
+
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .pillar { padding: 20px 12px; }
+      .pillar h3 { font-size: 0.65rem; }
+
+      .mode-card { padding: 24px 20px; }
+      .modes-streak-rewards { clip-path: none; border-radius: 12px; }
+      .sr-panel { padding: 28px 20px; }
+      .sr-tabs { flex-direction: column; }
+      .sr-tab { padding: 14px 16px; font-size: 0.7rem; }
+      .sr-malus-bar { flex-direction: column; padding: 20px; gap: 12px; }
+      .sr-streak-counter { font-size: 1.15rem; padding: 12px 20px; width: 100%; justify-content: center; }
+
+      .streak-milestones { grid-template-columns: repeat(2, 1fr); }
+      .badges-row { gap: 10px; }
+      .badge-item { min-width: calc(50% - 10px); flex: 1 1 calc(50% - 10px); padding: 16px 12px; }
+
+      .partner-grid { grid-template-columns: 1fr; }
+      .reward-highlight { flex-direction: column; text-align: center; }
+
+      .mechanic-card { padding: 24px 20px; }
+      .reservoir-visual { flex-direction: column; align-items: stretch; }
+      .reservoir-arrow { transform: rotate(90deg); text-align: center; }
+
+      .cta-section { padding: 72px 0; }
+      .cta-box { padding: 48px 20px; clip-path: none; border-radius: 16px; }
+      .cta-box::before { font-size: 5rem; }
+      .cta-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin: 0 auto; }
+      .cta-buttons .btn { width: 100%; justify-content: center; min-height: 48px; }
+
+      .trust-strip { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; justify-content: center; }
+      .footer-links { justify-content: center; gap: 16px; }
+
+      .section-title { font-size: clamp(1.4rem, 5vw, 1.8rem); }
+      .section-title::after { margin-top: 10px; }
+      .section-desc { font-size: 1rem; padding: 0 4px; }
+
+      .compare-card { padding: 16px; }
+      .problem-highlight { font-size: 1.05rem; }
+
+      .scanlines { opacity: 0.5; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      section { padding: 48px 0; }
+
+      .hero-cta {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+      .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+      }
+
+      .pillars-grid { grid-template-columns: 1fr 1fr; }
+      .game-panel { padding: 24px 20px; }
+      .app-panel { padding: 20px 16px; }
+
+      .sr-loot-item { font-size: 0.85rem; padding: 10px 12px; }
+      .mode-number { font-size: 1.5rem; }
+      .mode-name { font-size: 1rem; }
+
+      .rewards-text h2 { font-size: 1.5rem; }
+      .gamification-philosophy { padding: 24px 20px; }
+      .gamification-philosophy p { font-size: 1.1rem; }
+    }
+
+    @media (max-width: 360px) {
+      .hero-brand { font-size: 2.5rem; }
+      .badges-row { flex-direction: column; }
+      .badge-item { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="logo">CTRL<span>+</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#probleme">Le problème</a></li>
+        <li><a href="#modes">Les 3 modes</a></li>
+        <li><a href="#app">L'app</a></li>
+        <li><a href="#boutique">Boutique</a></li>
+        <li><a href="#systeme">Système</a></li>
+        <li><a href="#rewards">Récompenses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-menu-cta"><a href="rejoindre.html" class="btn btn-primary">Rejoindre</a></li>
+      </ul>
+      <a href="rejoindre.html" class="btn btn-primary nav-cta">Rejoindre</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">E-cigarette intelligente</div>
+        <h1 class="hero-brand">CTRL<span class="plus">+</span></h1>
+        <p class="hero-tagline">Reprends le contrôle, sans renoncer au plaisir.</p>
+        <p class="hero-slogan">// Level up ta consommation</p>
+        <p class="hero-desc">
+          Une cigarette électronique intelligente et son application transforment la réduction en aventure. Trois modes, un objectif : mesurer, progresser, gagner.
+        </p>
+        <div class="hero-cta">
+          <a href="#modes" class="btn btn-primary">Choisir ton mode</a>
+          <a href="#app" class="btn btn-outline">Voir l'interface</a>
+        </div>
+        <p class="age-notice" role="note">⚠️ Réservé aux personnes majeures (18+) · Projet MVP en développement</p>
+      </div>
+
+      <div class="vape-showcase" id="vapeShowcase">
+        <div class="vape-fx" aria-hidden="true">
+          <div class="vape-halo-outer"></div>
+          <div class="vape-halo"></div>
+          <div class="energy-ring"></div>
+        </div>
+        <div class="vape-shadow" id="vapeShadow"></div>
+        <div class="vape-float" id="vapeFloat">
+          <div class="vape-floating">
+            <img src="assets/ctrl-vape-v2-clean.png" alt="CTRL+ — E-cigarette intelligente" width="440" height="440">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Le problème -->
+  <section id="probleme" class="problem-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Le constat</span>
+        <h2 class="section-title">"Vaper, ce n'est pas comme fumer", ce n'est pas comme fumer</h2>
+        <p class="section-desc">La plupart des vapoteurs ont quitté la cigarette classique. Mais beaucoup finissent par vapoter en continu, toute la journée.</p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-text reveal">
+          <h3>Pourquoi c'est différent ?</h3>
+          <p>Contrairement à une cigarette, la vape n'a pas de fin de session claire. La consommation est difficile à mesurer, et la dépendance devient plus discrète — elle s'installe sans qu'on s'en rende compte.</p>
+          <p class="problem-highlight">CTRL+ est conçu pour résoudre exactement ce problème : rendre visible ce qui était invisible, et transformer la réduction en progression motivante.</p>
+        </div>
+
+        <div class="compare-cards reveal">
+          <div class="compare-card">
+            <span class="compare-icon">🚬</span>
+            <div>
+              <h4>Cigarette classique</h4>
+              <p>Finie en quelques minutes. Produits nocifs, coût élevé.</p>
+            </div>
+          </div>
+          <div class="compare-card">
+            <span class="compare-icon">💨</span>
+            <div>
+              <h4>Vape classique</h4>
+              <p>Pas de fin de session claire. Consommation continue, difficile à quantifier.</p>
+            </div>
+          </div>
+          <div class="compare-card">
+            <span class="compare-icon">🎮</span>
+            <div>
+              <h4>CTRL+</h4>
+              <p>Stock mesurable et recharges programmées, objectifs clairs. Le plaisir reste, le contrôle revient.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Concept -->
+  <section id="concept">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Le concept</span>
+        <h2 class="section-title">Une e-cigarette + une app qui jouent ensemble</h2>
+        <p class="section-desc">Cinq piliers pour reprendre le contrôle sans frustration ni culpabilité.</p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar reveal">
+          <div class="pillar-icon">📊</div>
+          <h3>Analyse des habitudes</h3>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🎯</div>
+          <h3>Objectifs personnalisés</h3>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">📉</div>
+          <h3>Limite progressive</h3>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🏅</div>
+          <h3>Récompense des efforts</h3>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🎮</div>
+          <h3>Sevrage ludique</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les 3 modes -->
+  <section id="modes" class="modes-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Difficulté</span>
+        <h2 class="section-title">Les 3 modes CTRL+</h2>
+        <p class="section-desc">Du simple suivi à la gamification complète — choisis l'intensité qui te correspond.</p>
+      </div>
+
+      <div class="modes-grid">
+        <div class="mode-card mode-free reveal">
+          <div class="mode-number">1️⃣</div>
+          <div class="mode-name">Roue Libre</div>
+          <p class="mode-audience">Curieux · Nouveaux utilisateurs · Pas encore dans une démarche de réduction</p>
+          <ul class="mode-features">
+            <li class="yes">Tracking des puffs</li>
+            <li class="yes">Statistiques</li>
+            <li class="yes">Objectifs manuels</li>
+            <li class="yes">Historique</li>
+            <li class="no">Aucun blocage</li>
+            <li class="no">Aucun malus</li>
+          </ul>
+        </div>
+
+        <div class="mode-card mode-control reveal">
+          <div class="mode-number">2️⃣</div>
+          <div class="mode-name">Contrôle</div>
+          <p class="mode-audience">Tu veux réduire progressivement, sans pression excessive</p>
+          <ul class="mode-features">
+            <li class="yes">Analyse IA</li>
+            <li class="yes">Objectifs automatiques</li>
+            <li class="yes">Réduction progressive</li>
+            <li class="yes">Recharges périodiques (40 puffs)</li>
+            <li class="yes">Possibilité de lever la limite</li>
+          </ul>
+          <div class="mode-special">
+            <strong>// Jokers</strong>
+            3 jokers par semaine permettent de désactiver les limites pendant 12h. Tu gardes ta liberté, tout en faisant attention à ta consommation.
+          </div>
+        </div>
+
+        <div class="mode-card mode-plus reveal">
+          <div class="mode-number">3️⃣</div>
+          <div class="mode-name">Contrôle+</div>
+          <p class="mode-audience">Tu veux vraiment reprendre le contrôle sur ta consommation.</p>
+          <ul class="mode-features">
+            <li class="yes">Analyse IA</li>
+            <li class="yes">Objectifs automatiques</li>
+            <li class="yes">Réduction progressive</li>
+            <li class="yes">Recharges périodiques (40 puffs)</li>
+            <li class="yes">XP · Niveaux · Récompenses</li>
+            <li class="yes">Streaks · Badges</li>
+          </ul>
+          <div class="mode-special">
+            <strong>// Malus</strong>
+            <ul class="mode-malus">
+              <li>Utilisation d'un bonus d'urgence</li>
+              <li>Levée de limite</li>
+              <li>Dépassement d'objectif</li>
+            </ul>
+            → Perte du streak ou réduction des gains.
+          </div>
+        </div>
+      </div>
+
+      <!-- Récompenses & Streak -->
+      <div class="modes-streak-rewards reveal" id="streak-rewards">
+        <div class="sr-tabs">
+          <div class="sr-tab active-streak">🔥 Streak</div>
+          <div class="sr-tab active-rewards">🏆 Récompenses</div>
+        </div>
+
+        <div class="sr-body">
+          <div class="sr-panel streak-side">
+            <h3>// Le streak</h3>
+            <p>Chaque jour où tu respectes ton objectif, ton compteur augmente. Le streak agis comme multiplicateur de points d'xp! </p>
+            <div class="sr-streak-counter"><span data-count="14">0</span> JOURS 🔥</div>
+            <div class="sr-milestones">
+              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 3 jours" data-modal-title="Multiplicateur ×1,3" data-modal-body="Atteins 3 jours consécutifs sans dépasser ton objectif. Tous les points boutique gagnés ce jour-là sont multipliés par 1,3." data-modal-reward="🪙 Points boutique ×1,3">3j · ×1,3</button>
+              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 7 jours" data-modal-title="Multiplicateur ×1,8" data-modal-body="Une semaine de contrôle. Tes gains de points boutique passent à ×1,8. Débloque aussi des récompenses partenaires de base." data-modal-reward="🪙 Points boutique ×1,8">7j · ×1,8</button>
+              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 30 jours" data-modal-title="Multiplicateur ×2,5" data-modal-body="Un mois de discipline. Multiplicateur ×2,5 sur tous les points boutique + accès aux offres premium partenaires." data-modal-reward="🪙 Points boutique ×2,5">30j · ×2,5</button>
+              <button type="button" class="sr-milestone streak-btn" data-modal-tag="// Streak 100 jours" data-modal-title="Multiplicateur ×3,5" data-modal-body="Le palier légendaire. ×3,5 sur l'XP convertie en points boutique. Récompenses exclusives et saveurs limitées débloquées." data-modal-reward="⚡ XP & points boutique ×3,5">100j · ×3,5</button>
+            </div>
+            <p style="margin-top:16px;margin-bottom:0;font-size:0.9rem">Clique sur un palier pour voir le multiplicateur. Plus le streak est long, plus tu gagnes.</p>
+          </div>
+
+          <div class="sr-panel rewards-side">
+            <h3>// Les récompenses</h3>
+            <p>XP, badges, coffres à loot et avantages réels via partenariats. Chaque palier célébre ton avancée dans ta prise de contrôle .</p>
+            <div class="sr-loot">
+              <button type="button" class="sr-loot-item unlocked loot-btn" data-modal-tag="// Récompense débloquée" data-modal-title="Discount Boutique — 7 jours" data-modal-body="Échange tes points boutique contre une réduction sur la boutique CTRL+ : pods, accessoires et saveurs exclusives." data-modal-reward="Coût : 350 points boutique">
+                <span>🔓</span>
+                <span>Discount Boutique — Streak 7j</span>
+              </button>
+              <button type="button" class="sr-loot-item locked loot-btn" data-modal-tag="// Récompense verrouillée" data-modal-title="Séance de sport — 30 jours" data-modal-body="Débloque une séance offerte chez un partenaire fitness en maintenant un streak de 30 jours en mode Contrôle+." data-modal-reward="Coût : 800 points boutique">
+                <span>🔒</span>
+                <span>Séance de sport — Streak 30j</span>
+              </button>
+              <button type="button" class="sr-loot-item locked loot-btn" data-modal-tag="// Récompense verrouillée" data-modal-title="Réduction partenaire — Niveau 10" data-modal-body="Accède à des réductions chez nos partenaires bien-être, food et loisirs." data-modal-reward="Coût : 1 200 points boutique">
+                <span>🔒</span>
+                <span>Réduction partenaire — Niveau 10</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-malus-bar">
+          <span class="sr-malus-icon">⚡</span>
+          <div>
+            <h4>// Système malus — Mode Contrôle+</h4>
+            <p>Si tu utilises un <strong>bonus d'urgence</strong>, <strong>lèves une limite</strong> ou <strong>dépasses ton objectif</strong>, Ton streak reviens a 0 et une partie de tes gains XP. Le choix t'appartient mais chaque décision a une consequence visible, pour le meilleur et le pire.</p>
+            <span class="sr-badge-mode">Actif en Contrôle+ uniquement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App preview -->
+  <section id="app">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Interface</span>
+        <h2 class="section-title">Une interface pour suivre ton évolution</h2>
+        <p class="section-desc">Progression visible et motivante au centre de tout. Clique sur les éléments pour en savoir plus.</p>
+      </div>
+
+      <div class="app-preview-grid">
+        <div class="app-panel reveal">
+          <div class="app-panel-tag">Écran principal</div>
+          <h3>Dashboard</h3>
+          <div class="puff-circle-wrap" style="width:140px;height:140px;margin:0 auto 12px">
+            <svg class="puff-circle-svg" viewBox="0 0 160 160">
+              <circle class="puff-circle-bg" cx="80" cy="80" r="70"/>
+              <circle class="puff-circle-fill" cx="80" cy="80" r="70"/>
+            </svg>
+            <div class="puff-circle-content">
+              <div class="puff-count" id="puffCount" data-count="58" style="font-size:2.2rem">0</div>
+              <div class="puff-label">Puffs disponibles</div>
+            </div>
+          </div>
+          <div class="recharge-timer" style="font-size:0.65rem;margin-bottom:12px"><span>+40 PUFFS</span> dans 01h42</div>
+          <button type="button" class="streak-display loot-btn" style="font-size:0.65rem;padding:6px 14px;border:none;cursor:pointer" data-modal-tag="// Streak actif" data-modal-title="14 jours — Multiplicateur actif" data-modal-body="Ton streak actuel booste tes gains de points boutique. Maintiens-le pour débloquer les paliers supérieurs." data-modal-reward="Multiplicateur estimé : ×2,1">14 JOURS 🔥</button>
+          <div class="app-xp-label" style="margin-top:12px">
+            <span>XP</span><span><span class="xp-value" data-count="780">0</span>/1000</span>
+          </div>
+          <div class="xp-bar" data-xp="78"><div class="xp-fill"></div></div>
+        </div>
+
+        <div class="app-panel reveal">
+          <div class="app-panel-tag">Onglet récompenses</div>
+          <h3>Coffre de loot</h3>
+          <div class="loot-grid">
+            <button type="button" class="loot-btn locked" data-modal-tag="// Loot verrouillé" data-modal-title="Séance de sport" data-modal-body="Atteins le niveau 10 et accumule assez de points boutique pour débloquer une séance chez un partenaire." data-modal-reward="800 points boutique">
+              <span class="loot-status">🔒</span>
+              <div><div class="loot-name">Réduction partenaire</div><div class="loot-desc">Niveau 10</div></div>
+            </button>
+            <button type="button" class="loot-btn unlocked" data-modal-tag="// Loot disponible" data-modal-title="Bon repas healthy" data-modal-body="Streak de 7 jours atteint ! Échange tes points contre un bon repas chez un partenaire alimentation saine." data-modal-reward="450 points boutique — Disponible">
+              <span class="loot-status">🔓</span>
+              <div><div class="loot-name">Discount boutique</div><div class="loot-desc">Streak 7j</div></div>
+            </button>
+            <button type="button" class="loot-btn locked" data-modal-tag="// Loot verrouillé" data-modal-title="Réduction partenaire" data-modal-body="Streak 30 jours requis. Réductions exclusives chez nos partenaires loisirs et bien-être." data-modal-reward="1 000 points boutique">
+              <span class="loot-status">🔒</span>
+              <div><div class="loot-name">Séance de sport</div><div class="loot-desc">Streak 30j</div></div>
+            </button>
+          </div>
+        </div>
+
+        <div class="app-panel reveal">
+          <div class="app-panel-tag">Profil</div>
+          <h3>Ton avatar</h3>
+          <div class="profile-avatar">🎮</div>
+          <div class="profile-level">NIV. 7</div>
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <div class="profile-stat-value" data-count="1240">0</div>
+              <div class="profile-stat-label">Puffs économisées</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-value" data-count="23">0</div>
+              <div class="profile-stat-label">Jours de contrôle</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-value" data-count="186" data-suffix="€">0</div>
+              <div class="profile-stat-label">Argent économisé</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-value" data-count="42" data-suffix="mg">0</div>
+              <div class="profile-stat-label">Nicotine évitée</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Boutique -->
+  <section id="boutique" class="boutique-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Économie CTRL+</span>
+        <h2 class="section-title">Points boutique</h2>
+        <p class="section-desc">Ton XP et tes streaks se transforment en monnaie échangeable. Clique sur une récompense pour voir le coût.</p>
+      </div>
+
+      <div class="boutique-intro reveal">
+        <h3>// Comment ça marche ?</h3>
+        <p>Chaque jour respecté en mode <strong style="color:var(--gold)">Contrôle+</strong>, tu gagnes de l'XP. Cette XP est convertie en <strong style="color:var(--gold)">points boutique</strong>. Ton streak agit comme multiplicateur — jusqu'à ×3,5 à 100 jours.</p>
+        <div class="boutique-flow">
+          <span>XP gagnée</span>
+          <span class="arrow">→</span>
+          <span>Points boutique</span>
+          <span class="arrow">→</span>
+          <span>Récompenses</span>
+        </div>
+      </div>
+
+      <div class="boutique-grid reveal">
+        <button type="button" class="boutique-item" data-modal-tag="// Boutique CTRL+" data-modal-title="Nouvelles saveurs" data-modal-body="Échange tes points contre des pods et e-liquides exclusifs CTRL+ : fruits rouges, menthe glacier, tabac vanillé… Des saveurs limitées réservées aux membres actifs." data-modal-reward="À partir de 200 points boutique">
+          <span style="font-size:2rem">🍇</span>
+          <div class="partner-name" style="margin-top:12px">Nouvelles saveurs</div>
+          <div class="boutique-cost">200 – 500 pts</div>
+        </button>
+        <button type="button" class="boutique-item" data-modal-tag="// Partenaires" data-modal-title="Réductions partenaires" data-modal-body="Bons de réduction chez nos partenaires : sport, alimentation saine, bien-être et loisirs. Plus ton streak est élevé, plus les offres sont premium." data-modal-reward="À partir de 350 points boutique">
+          <span style="font-size:2rem">🤝</span>
+          <div class="partner-name" style="margin-top:12px">Réductions partenaires</div>
+          <div class="boutique-cost">350 – 1 200 pts</div>
+        </button>
+        <button type="button" class="boutique-item" data-modal-tag="// Exclusif" data-modal-title="Éditions limitées" data-modal-body="Skins d'app, pods collector et accessoires exclusifs. Réservé aux joueurs avec un streak élevé ou un niveau avancé." data-modal-reward="À partir de 800 points boutique">
+          <span style="font-size:2rem">💎</span>
+          <div class="partner-name" style="margin-top:12px">Éditions limitées</div>
+          <div class="boutique-cost">800+ pts</div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fonctionnement -->
+  <section id="systeme">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Mécaniques de jeu</span>
+        <h2 class="section-title">Comment CTRL+ fonctionne</h2>
+        <p class="section-desc">Un système intelligent qui s'adapte à toi — avec des règles claires, pas de punition aveugle.</p>
+      </div>
+
+      <div class="mechanics-grid">
+        <div class="mechanic-card reveal">
+          <div class="mechanic-phase">Phase 1 — Apprentissage</div>
+          <h3>7 jours sans restriction</h3>
+          <p>Pendant la première semaine, aucune limite. L'app observe et mesure en silence :</p>
+          <div class="mechanic-example">
+            <strong>Nombre de puffs</strong> · <strong>Fréquence</strong> · <strong>Heures de consommation</strong>
+          </div>
+          <p style="margin-top:12px">À la fin, l'application calcule ton profil utilisateur et propose un plan adapté.</p>
+        </div>
+
+        <div class="mechanic-card reveal">
+          <div class="mechanic-phase">Phase 2 — Limite intelligente</div>
+          <h3>Un objectif réaliste, pas brutal</h3>
+          <p>À partir de ta moyenne observée, CTRL+ propose une réduction douce :</p>
+          <div class="mechanic-example">
+            Moyenne observée : <strong>140 puffs/jour</strong><br>
+            CTRL+ propose : <strong>120 puffs/jour</strong>
+          </div>
+          <p style="margin-top:12px">La limite évolue avec ta progression. Pas de choc, pas d'abandon.</p>
+        </div>
+
+        <div class="mechanic-card wide reveal">
+          <div class="mechanic-phase">Phase 3 — Réservoir dynamique</div>
+          <h3>Du stock au réveil, pas un blocage sur 24h</h3>
+          <p>Au lieu de bloquer d'un coup, CTRL+ distribue tes puffs intelligemment pour éviter la frustration :</p>
+          <div class="reservoir-visual">
+            <div class="reservoir-block filled">Réveil<br>Stock dispo</div>
+            <span class="reservoir-arrow">→</span>
+            <div class="reservoir-block active">+40 puffs<br>recharge périodique</div>
+            <span class="reservoir-arrow">→</span>
+            <div class="reservoir-block">Plafond<br>journalier</div>
+          </div>
+        </div>
+
+        <div class="mechanic-card reveal">
+          <div class="mechanic-phase">Bonus de secours — Mode Contrôle+</div>
+          <h3>Puffs d'urgence en dernier recours</h3>
+          <p>Quand le stock est vide, tu peux activer volontairement un bonus de secours. Disponible uniquement en mode Contrôle+.</p>
+          <div class="tradeoff positive">Puffs immédiats pour débloquer la situation</div>
+          <div class="tradeoff negative">Perte du streak ou réduction des gains</div>
+          <div class="tradeoff negative">Pas de récompense ce jour-là</div>
+        </div>
+
+        <div class="mechanic-card reveal">
+          <div class="mechanic-phase">Mode Soirée 🍻</div>
+          <h3>Quota augmenté temporairement</h3>
+          <p>Une soirée prévue ? Active le mode volontairement pour débloquer un quota plus élevé.</p>
+          <div class="tradeoff positive">Plus de puffs ce soir</div>
+          <div class="tradeoff negative">Quota réduit le lendemain</div>
+          <div class="tradeoff negative">Ou blocage temporaire</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gamification -->
+  <section id="gamification" class="gamification-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Le cœur du projet</span>
+        <h2 class="section-title">Gamification</h2>
+      </div>
+
+      <div class="gamification-philosophy reveal">
+        <p>
+          L'objectif n'est <span class="not">pas de punir</span>.<br>
+          L'objectif est de <span class="yes">donner envie de progresser</span>.
+        </p>
+        <p style="margin-top:16px;font-size:1rem;color:var(--text-muted);font-weight:400">XP, streaks et malus sont actifs en <strong style="color:var(--gold)">mode Contrôle+</strong> uniquement.</p>
+      </div>
+
+      <div class="game-systems">
+        <div class="game-panel reveal">
+          <h3>// Niveaux</h3>
+          <div class="level-track">
+            <div class="level-item">
+              <span class="level-num">NIV. 1</span>
+              <span class="level-name">Découverte</span>
+            </div>
+            <div class="level-item">
+              <span class="level-num">NIV. 5</span>
+              <span class="level-name">Contrôle</span>
+            </div>
+            <div class="level-item highlight">
+              <span class="level-num">NIV. 7</span>
+              <span class="level-name">CTRL Master</span>
+            </div>
+            <div class="level-item">
+              <span class="level-num">NIV. 10</span>
+              <span class="level-name">Maîtrise</span>
+            </div>
+            <div class="level-item">
+              <span class="level-num">NIV. 20</span>
+              <span class="level-name">Libéré</span>
+            </div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.9rem;margin-top:16px">Chaque jour respecté = XP gagnée. Plus tu progresses, plus ton compte évolue.</p>
+        </div>
+
+        <div class="game-panel reveal">
+          <h3>// Streaks</h3>
+          <div class="streak-milestones">
+            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 3 jours" data-modal-title="×1,3 points boutique" data-modal-body="Palier d'entrée : tous tes points boutique du jour sont multipliés par 1,3." data-modal-reward="Multiplicateur ×1,3">
+              <div class="streak-days">3</div>
+              <div class="streak-label">jours · ×1,3</div>
+            </button>
+            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 7 jours" data-modal-title="×1,8 points boutique" data-modal-body="Une semaine de contrôle. Multiplicateur ×1,8 + récompenses partenaires de base." data-modal-reward="Multiplicateur ×1,8">
+              <div class="streak-days">7</div>
+              <div class="streak-label">jours · ×1,8</div>
+            </button>
+            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 30 jours" data-modal-title="×2,5 points boutique" data-modal-body="Un mois sans faille. Multiplicateur ×2,5 et offres premium débloquées." data-modal-reward="Multiplicateur ×2,5">
+              <div class="streak-days">30</div>
+              <div class="streak-label">jours · ×2,5</div>
+            </button>
+            <button type="button" class="streak-milestone streak-btn" data-modal-tag="// Streak 100 jours" data-modal-title="×3,5 XP & points" data-modal-body="Palier légendaire. ×3,5 sur l'XP convertie en points boutique. Saveurs limitées et éditions exclusives." data-modal-reward="Multiplicateur ×3,5">
+              <div class="streak-days">100</div>
+              <div class="streak-label">jours · ×3,5</div>
+            </button>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.9rem;margin-top:16px">Clique sur un palier pour voir le multiplicateur.</p>
+        </div>
+      </div>
+
+      <div class="section-header reveal" style="margin-bottom:32px">
+        <h2 class="section-title" style="font-size:1.5rem">Badges à débloquer</h2>
+      </div>
+      <div class="badges-row reveal">
+        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="Première semaine" data-modal-body="7 jours consécutifs respectés. Récompense : +100 points boutique." data-modal-reward="+100 pts boutique">
+          <span class="badge-emoji">🏅</span>
+          <span class="badge-name">Première semaine</span>
+        </button>
+        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="-20% de consommation" data-modal-body="Tu as réduit ta consommation de 20% par rapport à ta baseline. Récompense : +250 points boutique." data-modal-reward="+250 pts boutique">
+          <span class="badge-emoji">📉</span>
+          <span class="badge-name">-20% de consommation</span>
+        </button>
+        <button type="button" class="badge-item" data-modal-tag="// Badge" data-modal-title="30 jours sans bonus" data-modal-body="30 jours sans utiliser de bonus d'urgence. Récompense : saveur exclusive offerte." data-modal-reward="Saveur exclusive">
+          <span class="badge-emoji">🛡️</span>
+          <span class="badge-name">30 jours sans bonus</span>
+        </button>
+        <button type="button" class="badge-item" data-modal-tag="// Badge légendaire" data-modal-title="Maître du contrôle" data-modal-body="Niveau 20 atteint. Récompense : édition collector + 1 000 points boutique." data-modal-reward="+1 000 pts boutique">
+          <span class="badge-emoji">👑</span>
+          <span class="badge-name">Maître du contrôle</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Récompenses réelles -->
+  <section id="rewards" class="rewards-section">
+    <div class="container">
+      <div class="rewards-showcase">
+        <div class="partner-grid reveal">
+          <button type="button" class="partner-card" data-modal-tag="// Partenaire sport" data-modal-title="Salle de sport" data-modal-body="Échange 600 points boutique contre une séance offerte chez un partenaire fitness près de chez toi." data-modal-reward="600 points boutique">
+            <span class="partner-emoji">🏋️</span>
+            <div class="partner-name">Salle de sport</div>
+            <div class="partner-desc">Séances offertes via partenariats</div>
+          </button>
+          <button type="button" class="partner-card" data-modal-tag="// Partenaire food" data-modal-title="Alimentation saine" data-modal-body="Bons repas healthy chez nos partenaires restauration. Streak 7j recommandé." data-modal-reward="450 points boutique">
+            <span class="partner-emoji">🥗</span>
+            <div class="partner-name">Alimentation saine</div>
+            <div class="partner-desc">Bons repas healthy à débloquer</div>
+          </button>
+          <button type="button" class="partner-card" data-modal-tag="// Partenaire bien-être" data-modal-title="Bien-être" data-modal-body="Massages, yoga, relaxation — échange tes points boutique contre une session bien-être." data-modal-reward="700 points boutique">
+            <span class="partner-emoji">🧘</span>
+            <div class="partner-name">Bien-être</div>
+            <div class="partner-desc">Massages, yoga, relaxation</div>
+          </button>
+          <button type="button" class="partner-card" data-modal-tag="// Partenaire loisirs" data-modal-title="Loisirs" data-modal-body="Ciné, concerts, activités — réductions exclusives CTRL+ chez nos partenaires loisirs." data-modal-reward="500 points boutique">
+            <span class="partner-emoji">🎟️</span>
+            <div class="partner-name">Loisirs</div>
+            <div class="partner-desc">Ciné, concerts, activités</div>
+          </button>
+        </div>
+
+        <div class="rewards-text reveal">
+          <h2>Des <span class="gold">récompenses réelles</span>, pas juste des points</h2>
+          <p>CTRL+ ne se contente pas de badges virtuels. Tes points boutique — gagnés via l'XP et les streaks — s'échangent contre de vraies récompenses : nouvelles saveurs, réductions partenaires, séances sport…</p>
+          <p>Plus ton streak monte, plus les récompenses deviennent premium — du bon repas à la séance de sport offerte.</p>
+
+          <div class="reward-highlight">
+            <span class="reward-highlight-icon">🏆</span>
+            <div class="reward-highlight-text">
+              <strong>30 jours en mode Hard</strong>
+              <span>= Séance de sport offerte chez un partenaire</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="cta-section">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2>Prêt à appuyer sur <span style="color:var(--cyan)">CTRL+</span> ?</h2>
+        <p class="cta-slogan">Reprends le contrôle, sans renoncer au plaisir.</p>
+        <p>Rejoins la liste d'attente et sois parmi les premiers joueurs.</p>
+        <div class="cta-buttons">
+          <a href="rejoindre.html" class="btn btn-gold">Rejoindre la liste d'attente</a>
+          <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+        </div>
+        <p class="cta-mvp">MVP V1 — Dashboard · Puffs · Streaks · XP · Mode soirée · Bonus de secours</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <div class="container trust-strip reveal">
+    <div class="trust-item">
+      <span class="trust-item-icon">🛡️</span>
+      <div class="trust-item-title">Site sécurisé</div>
+      <div class="trust-item-text">HTTPS · CSP · anti-spam · validation formulaires</div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item-icon">🔒</span>
+      <div class="trust-item-title">Données protégées</div>
+      <div class="trust-item-text">RGPD · Confidentialité · Limitation des envois</div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item-icon">💳</span>
+      <div class="trust-item-title">Paiement sécurisé</div>
+      <div class="trust-item-text">Soutien via PayPal (paypal.me/QubeFR)</div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item-icon">18+</span>
+      <div class="trust-item-title">Réservé aux majeurs</div>
+      <div class="trust-item-text">Nicotine addictive · Pas un dispositif médical</div>
+    </div>
+  </div>
+
+  <!-- Mentions légales -->
+  <section id="mentions-legales" class="legal-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">// Informations légales</span>
+        <h2 class="section-title">Transparence & conformité</h2>
+        <p class="section-desc">Informations claires sur l'éditeur, vos données et l'usage du site — conformément à la LCEN et au RGPD.</p>
+      </div>
+      <div class="legal-content reveal">
+        <h3>Éditeur du site</h3>
+        <p>Site édité par <strong>Bordey Quincy</strong>, responsable du projet CTRL+ (phase MVP / pré-lancement). Les descriptions produit concernent une version en cours de conception — aucune vente active à ce stade.</p>
+        <p>Contact : <a href="mailto:Quincy.bordey@gmail.com" style="color:var(--cyan)">Quincy.bordey@gmail.com</a> · Directeur de publication : Bordey Quincy</p>
+
+        <h3>Avertissement santé</h3>
+        <p>CTRL+ est un outil d'accompagnement à la réduction de consommation de nicotine. Il ne remplace pas un avis médical. Réservé aux personnes majeures (18+). La nicotine crée une dépendance.</p>
+
+        <div class="legal-links">
+          <a href="mentions-legales.html">Mentions légales complètes</a>
+          <a href="confidentialite.html">Politique de confidentialité</a>
+          <a href="cgu.html">Conditions d'utilisation</a>
+          <a href="cookies.html">Politique cookies</a>
+          <a href="contact.html">Nous contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">CTRL<span>+</span></a>
+      <ul class="footer-links">
+        <li><a href="mentions-legales.html">Mentions légales</a></li>
+        <li><a href="confidentialite.html">Confidentialité</a></li>
+        <li><a href="cgu.html">CGU</a></li>
+        <li><a href="cookies.html">Cookies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="rejoindre.html">Rejoindre</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 CTRL+ · Projet porté par Bordey Quincy · <a href="mailto:Quincy.bordey@gmail.com" style="color:var(--text-muted)">Quincy.bordey@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Consentement cookies">
+    <p>Nous utilisons un cookie technique pour mémoriser votre choix. Aucun traceur publicitaire. <a href="cookies.html">Politique cookies</a> · <a href="confidentialite.html">Confidentialité</a></p>
+    <button type="button" class="cookie-btn" id="cookieAccept">J'accepte</button>
+  </div>
+
+  <!-- Modal info -->
+  <div class="modal" id="infoModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="modalClose" aria-label="Fermer">×</button>
+      <div class="modal-tag" id="modalTag"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-body" id="modalBody"></p>
+      <div class="modal-reward" id="modalReward"></div>
+    </div>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    function closeMenu() {
+      navLinks.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+      document.body.style.overflow = '';
+    }
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+    const vapeFloat = document.getElementById('vapeFloat');
+    const vapeShadow = document.getElementById('vapeShadow');
+    const vapeShowcase = document.getElementById('vapeShowcase');
+    const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function animateCount(el, duration = 2000) {
+      const target = parseInt(el.dataset.count, 10);
+      if (isNaN(target)) return;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const val = Math.floor(easeOutExpo(p) * target);
+        el.textContent = prefix + val.toLocaleString('fr-FR') + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = prefix + target.toLocaleString('fr-FR') + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function animateXpBar(bar) {
+      const pct = parseInt(bar.dataset.xp, 10) || 78;
+      const fill = bar.querySelector('.xp-fill');
+      if (!fill) return;
+      fill.style.width = '0%';
+      requestAnimationFrame(() => {
+        fill.style.width = pct + '%';
+      });
+    }
+
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+
+        if (entry.target.closest('#app') || entry.target.classList.contains('app-panel')) {
+          entry.target.querySelectorAll('[data-count]').forEach((el, j) => {
+            setTimeout(() => animateCount(el, 1500), j * 100);
+          });
+          entry.target.querySelectorAll('.xp-bar[data-xp]').forEach((bar) => {
+            setTimeout(() => animateXpBar(bar), 200);
+          });
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => revealObserver.observe(el));
+
+    document.querySelectorAll('.xp-bar[data-xp]').forEach(bar => {
+      const fill = bar.querySelector('.xp-fill');
+      if (fill) fill.style.width = '0%';
+    });
+
+    const srStreak = document.querySelector('.sr-streak-counter [data-count]');
+    if (srStreak) {
+      const streakObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { animateCount(srStreak, 1200); streakObs.disconnect(); }
+      }, { threshold: 0.5 });
+      streakObs.observe(srStreak.closest('.modes-streak-rewards'));
+    }
+
+    const modal = document.getElementById('infoModal');
+    const modalTag = document.getElementById('modalTag');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalReward = document.getElementById('modalReward');
+    const modalClose = document.getElementById('modalClose');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+
+    function openModal(el) {
+      modalTag.textContent = el.dataset.modalTag || '';
+      modalTitle.textContent = el.dataset.modalTitle || '';
+      modalBody.textContent = el.dataset.modalBody || '';
+      modalReward.textContent = el.dataset.modalReward || '';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (el.classList.contains('streak-btn')) {
+        document.querySelectorAll('.streak-btn.active').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+      }
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+    }
+
+    document.querySelectorAll('[data-modal-title]').forEach(el => {
+      el.addEventListener('click', () => openModal(el));
+    });
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (modal.classList.contains('open')) closeModal();
+        if (navLinks.classList.contains('open')) closeMenu();
+      }
+    });
+
+    if (vapeFloat && vapeShowcase && !isTouchDevice) {
+      let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+      vapeShowcase.addEventListener('mousemove', (e) => {
+        const rect = vapeShowcase.getBoundingClientRect();
+        targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
+        targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
+      });
+      vapeShowcase.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
+      function animateParallax() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        vapeFloat.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        if (vapeShadow) {
+          vapeShadow.style.transform = `translateX(${currentX * 0.5}px) scaleX(${1 - Math.abs(currentY) * 0.01})`;
+        }
+        requestAnimationFrame(animateParallax);
+      }
+      animateParallax();
+    }
+  </script>
+  <script src="js/security.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CTRL+",
+    "description": "Projet d'e-cigarette intelligente et application de réduction progressive de consommation de nicotine.",
+    "founder": { "@type": "Person", "name": "Bordey Quincy" },
+    "email": "Quincy.bordey@gmail.com",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "Quincy.bordey@gmail.com",
+      "contactType": "customer service",
+      "availableLanguage": "French"
+    }
+  }
+  </script>
+</body>
+</html>
